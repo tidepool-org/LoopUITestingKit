@@ -18,7 +18,7 @@ open class BaseScreen {
         self.app = app
     }
     
-    public func deleteApp() {
+    public func deleteApp() async {
         app.terminate()
 
         let icon = springboardApp.icons[appName]
@@ -35,8 +35,11 @@ open class BaseScreen {
             waitForExistence(springboardApp.alerts.buttons["Delete"])
             springboardApp.alerts.buttons["Delete"].tap()
             
-            waitForExistence(springboardApp.alerts.buttons["OK"])
-            springboardApp.alerts.buttons["OK"].tap()
+            try? await Task.sleep(nanoseconds: NSEC_PER_SEC)
+            
+            if springboardApp.alerts.buttons["OK"].exists {
+                springboardApp.alerts.buttons["OK"].tap()
+            }
         }
     }
 }
