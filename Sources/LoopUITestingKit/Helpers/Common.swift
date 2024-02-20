@@ -16,6 +16,8 @@ public class Common {
     
     public private(set) lazy var appName: String = ProcessInfo.processInfo.environment["appName"]!
     public private(set) lazy var bundleIdentifier: String = ProcessInfo.processInfo.environment["bundleIdentifier"]!
+    
+    public init() {}
 }
 
 public func waitForExistence(_ element: XCUIElement) {
