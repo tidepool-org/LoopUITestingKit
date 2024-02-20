@@ -9,13 +9,13 @@ import XCTest
 
 open class BaseScreen {
     public let app: XCUIApplication
-    public let appName: String
     public let springboardApp: XCUIApplication = XCUIApplication(bundleIdentifier:"com.apple.springboard")
     public let bundleIdentifier: String? = Bundle.main.bundleIdentifier
 
-    public init(app: XCUIApplication, appName: String) {
+    public private(set) lazy var appName: String = ProcessInfo.processInfo.environment["appName"]!
+
+    public init(app: XCUIApplication) {
         self.app = app
-        self.appName = appName
     }
     
     public func deleteApp() {

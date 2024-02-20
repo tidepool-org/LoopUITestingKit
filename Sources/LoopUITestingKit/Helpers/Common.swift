@@ -14,11 +14,8 @@ public class Common {
         static let elementTimeout: TimeInterval = 5
     }
     
-    let appName: String
-    
-    public init(appName: String) {
-        self.appName = appName
-    }
+    public private(set) lazy var appName: String = ProcessInfo.processInfo.environment["appName"]!
+    public private(set) lazy var bundleIdentifier: String = ProcessInfo.processInfo.environment["bundleIdentifier"]!
 }
 
 public func waitForExistence(_ element: XCUIElement) {
