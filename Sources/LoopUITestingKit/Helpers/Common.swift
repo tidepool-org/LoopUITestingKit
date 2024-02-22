@@ -19,8 +19,16 @@ public class Common {
     public init() {}
 }
 
-public func waitForExistence(_ element: XCUIElement) {
-    XCTAssert(element.waitForExistence(timeout: Common.TestSettings.elementTimeout))
+public func waitForExistence(
+    _ element: XCUIElement,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    XCTAssert(
+        element.waitForExistence(timeout: Common.TestSettings.elementTimeout),
+        file: file,
+        line: line
+    )
 }
 
 extension XCUIElement {
