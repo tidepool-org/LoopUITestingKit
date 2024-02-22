@@ -21,11 +21,12 @@ public class Common {
 
 public func waitForExistence(
     _ element: XCUIElement,
+    timeout: TimeInterval = Common.TestSettings.elementTimeout,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
     XCTAssert(
-        element.waitForExistence(timeout: Common.TestSettings.elementTimeout),
+        element.waitForExistence(timeout: timeout),
         file: file,
         line: line
     )
