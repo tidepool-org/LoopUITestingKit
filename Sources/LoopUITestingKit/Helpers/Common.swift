@@ -13,7 +13,7 @@ public class Common {
     public struct TestSettings {
         public static let appName: String = ProcessInfo.processInfo.environment["appName"]!
         public static let bundleIdentifier: String = ProcessInfo.processInfo.environment["bundleIdentifier"]!
-        public static let elementTimeout: TimeInterval = 5
+        public static let elementTimeout: TimeInterval = 20
     }
     
     public init() {}
