@@ -10,12 +10,11 @@ import XCTest
 
 @MainActor
 public class Common {
-    struct TestSettings {
-        static let elementTimeout: TimeInterval = 5
+    public struct TestSettings {
+        public static let appName: String = ProcessInfo.processInfo.environment["appName"]!
+        public static let bundleIdentifier: String = ProcessInfo.processInfo.environment["bundleIdentifier"]!
+        public static let elementTimeout: TimeInterval = 5
     }
-    
-    public private(set) lazy var appName: String = ProcessInfo.processInfo.environment["appName"]!
-    public private(set) lazy var bundleIdentifier: String = ProcessInfo.processInfo.environment["bundleIdentifier"]!
     
     public init() {}
 }
