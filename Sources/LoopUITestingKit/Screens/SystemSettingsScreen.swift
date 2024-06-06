@@ -28,6 +28,10 @@ public final class SystemSettingsScreen: BaseScreen {
         app.switches["Critical Alerts"]
     }
     
+    public init() {
+        super.init(app: XCUIApplication(bundleIdentifier: "com.apple.Preferences"))
+    }
+    
     // MARK: Actions
     
     public func launchApp() {
