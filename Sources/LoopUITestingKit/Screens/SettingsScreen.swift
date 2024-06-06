@@ -75,6 +75,10 @@ public final class SettingsScreen: BaseScreen {
         app.descendants(matching: .any).matching(identifier: "settingsViewClosedLoopToggle").switches.firstMatch
     }
     
+    public var confirmCloseLoopToggle: XCUIElement {
+        app.buttons["Yes, turn OFF"].firstMatch
+    }
+    
     // MARK: Actions
     
     public func openPumpManager() {
@@ -120,5 +124,7 @@ public final class SettingsScreen: BaseScreen {
     public func toggleClosedLoop() {
         waitForExistence(closedLoopToggle)
         closedLoopToggle.tap()
+        waitForExistence(confirmCloseLoopToggle)
+        confirmCloseLoopToggle.tap()
     }
 }
