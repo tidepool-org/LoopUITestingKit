@@ -125,6 +125,8 @@ public final class SettingsScreen: BaseScreen {
         waitForExistence(closedLoopToggle)
         closedLoopToggle.tap()
         waitForExistence(confirmCloseLoopToggle)
-        confirmCloseLoopToggle.tap()
+        if confirmCloseLoopToggle.exists {
+            confirmCloseLoopToggle.tap()
+        }
     }
 }
