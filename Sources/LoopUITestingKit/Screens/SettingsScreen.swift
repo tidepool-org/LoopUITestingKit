@@ -123,9 +123,10 @@ public final class SettingsScreen: BaseScreen {
     
     public func toggleClosedLoop() {
         waitForExistence(closedLoopToggle)
+        let preTapValue = closedLoopToggle.value
         closedLoopToggle.tap()
-        waitForExistence(confirmCloseLoopToggle)
-        if confirmCloseLoopToggle.exists {
+        if preTapValue as? Bool == true {
+            waitForExistence(confirmCloseLoopToggle)
             confirmCloseLoopToggle.tap()
         }
     }
