@@ -52,7 +52,7 @@ public final class SettingsScreen: BaseScreen {
     }
     
     public var managePermissionsInSettings: XCUIElement {
-        app.descendants(matching: .any).buttons["Manage Permissions in Settings"]
+        app.descendants(matching: .any).buttons["Manage iOS Permissions"]
     }
     
     public var alertPermissionsNotificationsEnabled: XCUIElement {
