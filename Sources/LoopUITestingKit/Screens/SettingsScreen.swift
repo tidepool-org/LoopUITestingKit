@@ -20,7 +20,7 @@ public final class SettingsScreen: BaseScreen {
     }
     
     public var pumpSimulatorButton: XCUIElement {
-        app.buttons.staticTexts["Pump Simulator"]
+        app.buttons["Pump Simulator"]
     }
     
     public var pumpSimulatorDoneButton: XCUIElement {
@@ -36,7 +36,7 @@ public final class SettingsScreen: BaseScreen {
     }
     
     public var cgmSimulatorButton: XCUIElement {
-        app.buttons.staticTexts["CGM Simulator"]
+        app.buttons["CGM Simulator"]
     }
     
     public var cgmSimulatorDoneButton: XCUIElement {
