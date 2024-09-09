@@ -22,14 +22,19 @@ public class Common {
 public func waitForExistence(
     _ element: XCUIElement,
     timeout: TimeInterval = Common.TestSettings.elementTimeout,
+    assert: Bool = true,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    XCTAssert(
-        element.waitForExistence(timeout: timeout),
-        file: file,
-        line: line
-    )
+    if assert {
+        XCTAssert(
+            element.waitForExistence(timeout: timeout),
+            file: file,
+            line: line
+        )
+    } else {
+        _ = element.waitForExistence(timeout: timeout)
+    }
 }
 
 extension XCUIElement {
