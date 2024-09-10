@@ -13,7 +13,7 @@ public final class SystemSettingsScreen: BaseScreen {
     // MARK: Elements
     
     public var loopCell: XCUIElement {
-        app.cells[appName]
+        app.cells[app.label]
     }
     
     public var notificationsButton: XCUIElement {
