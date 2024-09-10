@@ -12,6 +12,7 @@ import XCTest
 public class Common {
     public struct TestSettings {
         public static let elementTimeout: TimeInterval = 20
+        public static let bundleIdentifier: String = ProcessInfo.processInfo.environment["bundleIdentifier"]!
     }
     
     public init() {}
