@@ -10,10 +10,12 @@ import XCTest
 
 public final class SystemSettingsScreen: BaseScreen {
     
+    private var appName: String
+    
     // MARK: Elements
     
     public var loopCell: XCUIElement {
-        app.cells[app.label]
+        app.cells[appName]
     }
     
     public var notificationsButton: XCUIElement {
@@ -28,7 +30,8 @@ public final class SystemSettingsScreen: BaseScreen {
         app.switches["Critical Alerts"]
     }
     
-    public init() {
+    public init(appName: String) {
+        self.appName = appName
         super.init(app: XCUIApplication(bundleIdentifier: "com.apple.Preferences"))
     }
     
