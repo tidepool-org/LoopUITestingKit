@@ -15,9 +15,9 @@ public final class SystemSettingsScreen: BaseScreen {
     // MARK: Elements
     
     public var loopCell: XCUIElement {
-        app.cells[appName]
+        app.buttons[appName]
     }
-    
+
     public var notificationsButton: XCUIElement {
         app.descendants(matching: .any).element(matching: .button, identifier: "NOTIFICATIONS")
     }
@@ -42,7 +42,15 @@ public final class SystemSettingsScreen: BaseScreen {
     }
     
     public func openAppSystemSettings() {
-        waitForExistence(loopCell)
+        if !app.buttons["Apps"].exists {
+            app.swipeUp()
+        }
+        if app.buttons["Apps"].exists {
+            app.buttons["Apps"].tap()
+        }
+        if !loopCell.exists {
+            app.swipeUp()
+        }
         loopCell.tap()
     }
     
