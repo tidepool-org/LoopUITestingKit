@@ -12,7 +12,7 @@ public final class SettingsScreen: BaseScreen {
     // MARK: Elements
     
     public var insulinPump: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "settingsViewInsulinPump").firstMatch
+        app.buttons["settingsViewInsulinPump"]
     }
     
     public var pumpSimulatorTitle: XCUIElement {
@@ -28,7 +28,7 @@ public final class SettingsScreen: BaseScreen {
     }
     
     public var cgm: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "settingsViewCGM").firstMatch
+        app.buttons["settingsViewCGM"]
     }
     
     public var cgmSimulatorTitle: XCUIElement {
