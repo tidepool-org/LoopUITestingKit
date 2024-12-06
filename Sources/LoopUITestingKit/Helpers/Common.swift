@@ -22,9 +22,16 @@ public func waitForExistence(
     _ element: XCUIElement,
     timeout: TimeInterval = Common.TestSettings.elementTimeout,
     assert: Bool = true,
+    scrollParent: XCUIElement? = nil,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
+    if let scrollParent {
+        while !(element.exists) {
+            scrollParent.swipeUp()
+        }
+    }
+    
     if assert {
         XCTAssert(
             element.waitForExistence(timeout: timeout),
