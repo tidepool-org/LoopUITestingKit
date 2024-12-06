@@ -100,7 +100,7 @@ public final class SettingsScreen: BaseScreen {
     }
     
     public func openCGMManager() {
-        waitForExistence(cgm)
+        waitForExistence(cgm, scrollParent: app)
         cgm.tap()
     }
     
