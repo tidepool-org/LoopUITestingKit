@@ -1,230 +1,111 @@
 //
 //  HomeScreen.swift
+//  TidepoolSupport
 //
-//
-//  Created by Cameron Ingham on 2/13/24.
+//  Created by Petr Žywczok on 19.11.2024.
 //
 
 import XCTest
 
-public class HomeScreen: BaseScreen {
+public final class HomeScreen: BaseScreen {
     
     // MARK: Elements
     
-    public var hudStatusClosedLoop: XCUIElement {
+    // Navigation bar
+    private var settingsTabButton: XCUIElement { app.buttons["statusTableViewControllerSettingsButton"] }
+        private var carbsTabButton: XCUIElement { app.buttons["statusTableViewControllerCarbsButton"] }
+        private var bolusTabButton: XCUIElement { app.buttons["statusTableViewControllerBolusButton"] }
+        private var preMealTabButton: XCUIElement { app.buttons["statusTableViewPreMealButton"] }
+    
+    private var hudStatusClosedLoop: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "loopCompletionHUDLoopStatusClosed").firstMatch
     }
-    
-    public var hudPumpPill: XCUIElement {
+    private var hudPumpPill: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "pumpHUDView").firstMatch
     }
-    
-    public var closedLoopOnAlertTitle: XCUIElement {
-        app.staticTexts["Closed Loop ON"]
-    }
-    
-    public var hudStatusOpenLoop: XCUIElement {
+    private var closedLoopOnAlertTitle: XCUIElement { app.staticTexts["Closed Loop ON"] }
+    private var hudStatusOpenLoop: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "loopCompletionHUDLoopStatusOpen").firstMatch
     }
-    
-    public var closedLoopOffAlertTitle: XCUIElement {
-        app.staticTexts["Closed Loop OFF"]
-    }
-    
-    public var preMealTabEnabled: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "statusTableViewPreMealButtonEnabled").firstMatch
-    }
-    
-    public var preMealTabDisabled: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "statusTableViewPreMealButtonDisabled").firstMatch
-    }
-    
-    public var settingsTab: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "statusTableViewControllerSettingsButton").firstMatch
-    }
-    
-    public var carbsTab: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "statusTableViewControllerCarbsButton").firstMatch
-    }
-    
-    public var carbEntryTitle: XCUIElement {
-        app.navigationBars.staticTexts["Add Carb Entry"]
-    }
-    
-    public var carbEntryCancelButton: XCUIElement {
-        app.navigationBars["Add Carb Entry"].buttons["Cancel"]
-    }
-    
-    public var simpleMealCalculatorTitle: XCUIElement {
-        app.navigationBars.staticTexts["Simple Meal Calculator"]
-    }
-    
-    public var simpleMealCalculatorCancelButton: XCUIElement {
-        app.navigationBars["Simple Meal Calculator"].buttons["Cancel"]
-    }
-    
-    public var bolusTab: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "statusTableViewControllerBolusButton").firstMatch
-    }
-    
-    public var bolusTitle: XCUIElement {
-        app.navigationBars.staticTexts["Bolus"]
-    }
-    
-    public var bolusEntryViewBolusEntryRow: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "dismissibleKeyboardTextField").firstMatch
-    }
-    
-    public var bolusCancelButton: XCUIElement {
-        app.navigationBars["Bolus"].buttons["Cancel"]
-    }
-    
-    public var simpleBolusCalculatorTitle: XCUIElement {
-        app.navigationBars.staticTexts["Simple Bolus Calculator"]
-    }
-    
-    public var simpleBolusCalculatorCancelButton: XCUIElement {
-        app.navigationBars["Simple Bolus Calculator"].buttons["Cancel"]
-    }
-    
-    public var safetyNotificationsAlertTitle: XCUIElement {
+    private var closedLoopOffAlertTitle: XCUIElement { app.staticTexts["Closed Loop OFF"] }
+    private var safetyNotificationsAlertTitle: XCUIElement {
         app.alerts["\n\nWarning! Safety notifications are turned OFF"]
     }
+    private var safetyNotificationsAlertCloseButton: XCUIElement { app.alerts.firstMatch.buttons["Close"] }
+    private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
+    private var preMealDialogCancelButton: XCUIElement { app.buttons["Cancel"] }
+    private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
     
-    public var safetyNotificationsAlertCloseButton: XCUIElement {
-        app.alerts.firstMatch.buttons["Close"]
-    }
-    
-    public var alertDismissButton: XCUIElement {
-        app.buttons["Dismiss"]
-    }
-    
-    public var confirmationDialogCancelButton: XCUIElement {
-        app.buttons["Cancel"]
-    }
-    
-    public var keyboardDoneButton: XCUIElement {
-        app.toolbars.firstMatch.buttons["Done"].firstMatch
-    }
-    
-    public var deliverBolusButton: XCUIElement {
-        app.buttons["Deliver"]
-    }
-    
-    public var notification: XCUIElement {
-        springboardApp.descendants(matching: .any).matching(identifier: "NotificationShortLookView").firstMatch
-    }
-    
-    public var bolusIssueNotificationTitle: XCUIElement {
-        app.alerts["Bolus Issue"]
-    }
-    
-    public var passcodeEntry: XCUIElement {
-        springboardApp.secureTextFields["Passcode field"]
-    }
-    
-    public var springboardKeyboardDoneButton: XCUIElement {
-        springboardApp.keyboards.buttons["done"]
-    }
     
     // MARK: Actions
-    
-    public func openSettings() {
-        waitForExistence(settingsTab)
-        settingsTab.tap()
-    }
-    
-    public func tapSafetyNotificationAlertCloseButton() {
-        waitForExistence(safetyNotificationsAlertCloseButton)
-        safetyNotificationsAlertCloseButton.tap()
-    }
-    
-    public func tapLoopStatusOpen() {
-        waitForExistence(hudStatusOpenLoop)
-        hudStatusOpenLoop.tap()
-    }
-    
-    public func tapLoopStatusClosed() {
-        waitForExistence(hudStatusClosedLoop)
-        hudStatusClosedLoop.tap()
-    }
-    
-    public func closeLoopStatusAlert() {
-        waitForExistence(alertDismissButton)
-        alertDismissButton.tap()
-    }
-    
-    public func tapPreMealButton() {
-        waitForExistence(preMealTabEnabled)
-        preMealTabEnabled.tap()
-    }
-    
-    public func dismissPreMealConfirmationDialog() {
-        waitForExistence(confirmationDialogCancelButton)
-        confirmationDialogCancelButton.tap()
-    }
-    
-    public func tapCarbEntry() {
-        waitForExistence(carbsTab)
-        carbsTab.tap()
-    }
-    
-    public func closeMealEntry() {
-        waitForExistence(carbEntryCancelButton)
-        carbEntryCancelButton.tap()
-    }
-    
-    public func closeSimpleCarbEntry() {
-        waitForExistence(simpleMealCalculatorCancelButton)
-        simpleMealCalculatorCancelButton.tap()
+
+    public func getPumpPillValue() -> String {
+        hudPumpPill.getValueSafe()
     }
     
     public func tapBolusEntry() {
-        waitForExistence(bolusTab)
-        bolusTab.tap()
+        bolusTabButton.safeTap()
     }
     
-    public func closeBolusEntry() {
-        waitForExistence(bolusCancelButton)
-        bolusCancelButton.tap()
+    public func tapSettingsButton() {
+        settingsTabButton.safeTap()
     }
     
-    public func closeSimpleBolusEntry() {
-        waitForExistence(simpleBolusCalculatorCancelButton)
-        simpleBolusCalculatorCancelButton.tap()
+    public func tapSafetyNotificationAlertCloseButton() {
+        safetyNotificationsAlertCloseButton.safeTap()
+    }
+    
+    public func tapLoopStatusOpen() {
+        hudStatusOpenLoop.safeTap()
+    }
+    
+    public func tapLoopStatusClosed() {
+        hudStatusClosedLoop.safeTap()
+    }
+    
+    public func tapLoopStatusAlertDismissButton() {
+        alertDismissButton.safeTap()
+    }
+    
+    public func tapPreMealButton() {
+        preMealTabButton.safeTap()
+    }
+    
+    public func tapPreMealDialogCancelButton() {
+        preMealDialogCancelButton.safeTap()
+    }
+    
+    public func tapCarbEntry() {
+        carbsTabButton.safeTap()
     }
     
     public func tapPumpPill() {
-        waitForExistence(hudPumpPill)
-        hudPumpPill.tap()
+        hudPumpPill.safeTap()
     }
     
-    public func tapBolusEntryTextField() {
-        waitForExistence(bolusEntryViewBolusEntryRow)
-        bolusEntryViewBolusEntryRow.tap()
+    // MARK: Verifications
+    
+    public var hudStatusClosedLoopExists: Bool {
+        hudStatusClosedLoop.waitForExistence(timeout: 120)
     }
     
-    public func closeKeyboard() {
-        waitForExistence(keyboardDoneButton)
-        keyboardDoneButton.tap()
+    public var hudStatusOpenLoopExists: Bool {
+        hudStatusOpenLoop.safeExists
     }
     
-    public func tapDeliverBolusButton() {
-        waitForExistence(deliverBolusButton)
-        deliverBolusButton.forceTap()
+    public var preMealButtonEnabled: Bool {
+        preMealTabButton.safeIsEnabled()
     }
     
-    public func verifyOcclusionAlert() {
-//        waitForExistence(notification)
-//        notification.tap()
-//        waitForExistence(bolusIssueNotificationTitle)
-//        app.activate()
-        #warning("FIXME")
+    public var closedLoopOffAlertTitleExists: Bool {
+        closedLoopOffAlertTitle.safeExists
     }
     
-    public func enterPasscode() {
-        waitForExistence(passcodeEntry)
-        passcodeEntry.tap()
-        springboardApp.typeText("1\n")
+    public var closedLoopOnAlertTitleExists: Bool {
+        closedLoopOnAlertTitle.safeExists
+    }
+    
+    public func pumpPillDisplaysValue(value: String) {
+        XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
     }
 }
