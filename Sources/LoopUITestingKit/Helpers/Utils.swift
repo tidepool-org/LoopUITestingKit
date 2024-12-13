@@ -68,18 +68,10 @@ extension XCUIElement {
 }
 
 extension XCUIApplication {
-    public func uninstall(name: String? = "Tidepool Loop") {
+    public func uninstall(appName: String) {
         self.terminate()
         
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        let appName: String
-        if let name = name {
-            appName = name
-        } else {
-            let uiTestRunnerName = Bundle.main.infoDictionary?["CFBundleName"] as! String
-            appName = uiTestRunnerName.replacingOccurrences(of: "UITests-Runner", with: "")
-        }
-        
         let appIcon = springboard.icons[appName].firstMatch
         let removeAppButton = springboard.buttons["Remove App"]
         let deleteAppButton = springboard.alerts.buttons["Delete App"]
