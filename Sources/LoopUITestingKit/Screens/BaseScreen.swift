@@ -8,10 +8,10 @@
 import XCTest
 
 open class BaseScreen {
-    public let app: XCUIApplication
-    public let springboardApp: XCUIApplication = XCUIApplication(bundleIdentifier:"com.apple.springboard")
-    public let bundleIdentifier: String? = Bundle.main.bundleIdentifier
-
+    let app: XCUIApplication
+    let springBoard: XCUIApplication = XCUIApplication(bundleIdentifier:"com.apple.springboard")
+    let basicWait: Double = 5
+    let longWait: Double = 20
 
     public init(app: XCUIApplication) {
         self.app = app

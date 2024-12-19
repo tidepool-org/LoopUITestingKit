@@ -1,8 +1,8 @@
 //
 //  SettingsScreen.swift
+//  TidepoolSupport
 //
-//
-//  Created by Cameron Ingham on 2/13/24.
+//  Created by Petr Žywczok on 19.11.2024.
 //
 
 import XCTest
@@ -11,130 +11,102 @@ public final class SettingsScreen: BaseScreen {
     
     // MARK: Elements
     
-    public var insulinPump: XCUIElement {
-        app.buttons["settingsViewInsulinPump"]
+    private var insulinPump: XCUIElement {
+        app.descendants(matching: .any).matching(identifier: "settingsViewInsulinPump").firstMatch
     }
-    
-    public var pumpSimulatorTitle: XCUIElement {
-        app.navigationBars.staticTexts["Pump Simulator"]
+    private var pumpSimulatorButton: XCUIElement { app.buttons["Pump Simulator"] }
+    private var pumpSimulatorDoneButton: XCUIElement { app.navigationBars["Pump Simulator"].buttons["Done"] }
+    private var cgm: XCUIElement { app.descendants(matching: .any).matching(identifier: "settingsViewCGM").firstMatch }
+    private var cgmSimulatorButton: XCUIElement { app.buttons["CGM Simulator"] }
+    private var settingsDoneButton: XCUIElement { app.navigationBars["Settings"].buttons["Done"] }
+    private var alertManagementAlertWarning: XCUIElement { app.images["settingsViewAlertManagementAlertWarning"] }
+    private var alertManagementButton: XCUIElement { app.buttons["settingsViewAlertManagement"].firstMatch }
+    private var alertPermissionsWarningImage: XCUIElement {
+        app.images["settingsViewAlertManagementAlertPermissionsAlertWarning"]
     }
-    
-    public var pumpSimulatorButton: XCUIElement {
-        app.buttons["Pump Simulator"]
-    }
-    
-    public var pumpSimulatorDoneButton: XCUIElement {
-        app.navigationBars["Pump Simulator"].buttons["Done"]
-    }
-    
-    public var cgm: XCUIElement {
-        app.buttons["settingsViewCGM"]
-    }
-    
-    public var cgmSimulatorTitle: XCUIElement {
-        app.navigationBars.staticTexts["CGM Simulator"]
-    }
-    
-    public var cgmSimulatorButton: XCUIElement {
-        app.buttons["CGM Simulator"]
-    }
-    
-    public var cgmSimulatorDoneButton: XCUIElement {
-        app.navigationBars["CGM Simulator"].buttons["Done"]
-    }
-    
-    public var settingsDoneButton: XCUIElement {
-        app.navigationBars["Settings"].buttons["Done"]
-    }
-    
-    public var alertManagementAlertWarning: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "settingsViewAlertManagementAlertWarning").firstMatch
-    }
-    
-    public var alertManagement: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "settingsViewAlertManagement").firstMatch
-    }
-    
-    public var alertPermissionsWarning: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "settingsViewAlertManagementAlertPermissionsAlertWarning").firstMatch
-    }
-    
-    public var managePermissionsInSettings: XCUIElement {
-        app.descendants(matching: .any).buttons["Manage iOS Permissions"]
-    }
-    
-    public var alertPermissionsNotificationsEnabled: XCUIElement {
+    private var manageIosPermissionsButton: XCUIElement { app.buttons["Manage iOS Permissions"] }
+    private var alertPermissionsNotificationsEnabled: XCUIElement {
         app.staticTexts["settingsViewAlertManagementAlertPermissionsNotificationsEnabled"]
     }
-    
-    public var alertPermissionsNotificationsDisabled: XCUIElement {
+    private var alertPermissionsNotificationsDisabled: XCUIElement {
         app.staticTexts["settingsViewAlertManagementAlertPermissionsNotificationsDisabled"]
     }
-    
-    public var alertPermissionsCriticalAlertsEnabled: XCUIElement {
+    private var alertPermissionsCriticalAlertsEnabled: XCUIElement {
         app.staticTexts["settingsViewAlertManagementAlertPermissionsCriticalAlertsEnabled"]
     }
-    
-    public var alertPermissionsCriticalAlertsDisabled: XCUIElement {
+    private var alertPermissionsCriticalAlertsDisabled: XCUIElement {
         app.staticTexts["settingsViewAlertManagementAlertPermissionsCriticalAlertsDisabled"]
     }
-    
-    public var closedLoopToggle: XCUIElement {
+    private var closedLoopToggle: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "settingsViewClosedLoopToggle").switches.firstMatch
     }
-    
-    public var confirmCloseLoopToggle: XCUIElement {
-        app.buttons["Yes, turn OFF"].firstMatch
+    private var confirmCloseLoopToggle: XCUIElement { app.buttons["Yes, turn OFF"].firstMatch }
+    private var iOsPermissionsButton: XCUIElement {
+        app.buttons.containing(NSPredicate(format: "label == 'iOS Permissions'")).firstMatch
     }
     
     // MARK: Actions
     
-    public func openPumpManager() {
-        waitForExistence(insulinPump)
-        insulinPump.tap()
+    public func tapInsulinPump() {
+        insulinPump.safeTap()
     }
     
-    public func closePumpSimulator() {
-        waitForExistence(pumpSimulatorDoneButton)
-        pumpSimulatorDoneButton.tap()
+    public func tapPumpSimulatorDoneButton() {
+        pumpSimulatorDoneButton.safeTap()
     }
     
-    public func openCGMManager() {
-        waitForExistence(cgm, scrollParent: app)
-        cgm.tap()
+    public func tapCGMManager() {
+        cgm.safeTap()
     }
     
-    public func closeCGMSimulator() {
-        waitForExistence(cgmSimulatorDoneButton)
-        cgmSimulatorDoneButton.tap()
+    public func tapSettingsDoneButton() {
+        settingsDoneButton.safeTap()
     }
     
-    public func closeSettingsScreen() {
-        waitForExistence(settingsDoneButton)
-        settingsDoneButton.tap()
+    public func tapAlertManagementButton() {
+        alertManagementButton.safeTap()
     }
     
-    public func openAlertManagement() {
-        waitForExistence(alertManagement)
-        alertManagement.tap()
+    public func tapiOsPermissionsButton() {
+        iOsPermissionsButton.safeTap()
     }
     
-    public func openAlertPermissions() {
-        waitForExistence(alertPermissionsWarning)
-        alertPermissionsWarning.tap()
-    }
-    
-    public func openPermissionsInSettings() {
-        waitForExistence(managePermissionsInSettings)
-        managePermissionsInSettings.tap()
+    public func tapManageIosPermissionsButton() {
+        manageIosPermissionsButton.safeTap()
     }
     
     public func toggleClosedLoop() {
-        waitForExistence(closedLoopToggle)
-        closedLoopToggle.tap()
-        sleep(2)
-        if confirmCloseLoopToggle.exists {
-            confirmCloseLoopToggle.tap()
-        }
+        closedLoopToggle.safeTap()
+        _ = confirmCloseLoopToggle.tapIfExists(timeout: 3)
+    }
+    
+    // MARK: Verifications
+    
+    public var isClosedLoopToggleOn: Bool {
+        closedLoopToggle.getValueSafe() == "1"
+    }
+    
+    public var alertWarningExists: Bool {
+        alertManagementAlertWarning.safeExists
+    }
+    
+    public var alertPermissionsWarningImageExists: Bool {
+        alertPermissionsWarningImage.safeExists
+    }
+    
+    public var alertPermissionsNotificationsDisabledExists: Bool {
+        alertPermissionsNotificationsDisabled.safeExists
+    }
+    
+    public var alertPermissionsNotificationsEnabledExists: Bool {
+        alertPermissionsNotificationsEnabled.safeExists
+    }
+    
+    public var alertPermissionsCriticalAlertsDisabledExists: Bool {
+        alertPermissionsCriticalAlertsDisabled.safeExists
+    }
+    
+    public var alertPermissionsCriticalAlertsEnabledExists: Bool {
+        alertPermissionsCriticalAlertsEnabled.safeExists
     }
 }

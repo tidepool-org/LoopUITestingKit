@@ -1,71 +1,58 @@
 //
-//  SystemSettingsScreen.swift
+//  appScreen.swift
+//  TidepoolSupport
 //
+//  Created by Petr Žywczok on 19.11.2024.
 //
-//  Created by Cameron Ingham on 2/13/24.
-//
-
 
 import XCTest
 
 public final class SystemSettingsScreen: BaseScreen {
-    
-    private var appName: String
-    
+        
     // MARK: Elements
     
-    public var loopCell: XCUIElement {
-        app.buttons[appName]
-    }
-
-    public var notificationsButton: XCUIElement {
+    private var notificationsButton: XCUIElement {
         app.descendants(matching: .any).element(matching: .button, identifier: "NOTIFICATIONS")
     }
-    
-    public var allowNotificationsToggle: XCUIElement {
-        app.switches["Allow Notifications"]
-    }
-    
-    public var criticalAlertsToggle: XCUIElement {
-        app.switches["Critical Alerts"]
-    }
-    
-    public init(appName: String) {
-        self.appName = appName
-        super.init(app: XCUIApplication(bundleIdentifier: "com.apple.Preferences"))
-    }
+    private var notificationsToggle: XCUIElement { app.switches["Allow Notifications"] }
+    private var criticalAlertsToggle: XCUIElement { app.switches["Critical Alerts"] }
     
     // MARK: Actions
     
-    public func launchApp() {
-        app.launch()
-    }
-    
-    public func openAppSystemSettings() {
-        if !app.buttons["Apps"].exists {
+    public func openAppSettings(appName: String) {
+        let appNameButton = app.buttons[appName]
+        
+        while !app.buttons["Apps"].exists {
             app.swipeUp()
         }
-        if app.buttons["Apps"].exists {
-            app.buttons["Apps"].tap()
-        }
-        if !loopCell.exists {
+        app.buttons["Apps"].tap()
+        while !appNameButton.exists {
             app.swipeUp()
         }
-        loopCell.tap()
+        appNameButton.tap()
     }
     
-    public func openSystemNotificationSettings() {
-        waitForExistence(notificationsButton)
-        notificationsButton.tap()
+    public func tapNotificationsButton() {
+        notificationsButton.safeTap()
     }
     
-    public func toggleAllowNotifications() {
-        waitForExistence(allowNotificationsToggle)
-        allowNotificationsToggle.tap()
+    public func tapReturnToTidepoolButton(appName: String) {
+        springBoard.buttons["Return to \(appName)"].safeTap()
     }
     
-    public func toggleCriticalAlerts() {
-        waitForExistence(criticalAlertsToggle)
-        criticalAlertsToggle.tap()
+    public func toggleAllowNotifications(enableNotifications: Bool = true) {
+        let shouldBeEnabled = enableNotifications ? "1" : "0"
+        
+        if notificationsToggle.getValueSafe() != shouldBeEnabled {
+            notificationsToggle.tap()
+        }
+    }
+    
+    public func toggleCriticalAlerts(enableCriticalAlerts: Bool = true) {
+        let shouldBeEnabled = enableCriticalAlerts ? "1" : "0"
+        
+        if criticalAlertsToggle.getValueSafe() != shouldBeEnabled {
+            criticalAlertsToggle.tap()
+        }
     }
 }
