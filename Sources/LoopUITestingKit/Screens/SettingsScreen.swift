@@ -45,6 +45,7 @@ public final class SettingsScreen: BaseScreen {
         app.buttons.containing(NSPredicate(format: "label == 'iOS Permissions'")).firstMatch
     }
     private var therapySettingsButton: XCUIElement { app.buttons["button_TherapySettings"] }
+    private var presetsButton: XCUIElement { app.buttons["button_Presets"] }
     
     // MARK: Actions
         
@@ -56,6 +57,7 @@ public final class SettingsScreen: BaseScreen {
     public func tapiOsPermissionsButton() { iOsPermissionsButton.safeTap() }
     public func tapManageIosPermissionsButton() { manageIosPermissionsButton.safeTap() }
     public func tapTherapySettingsButton() { therapySettingsButton.safeTap() }
+    public func tapPresetsButton() { presetsButton.safeTap() }
     
     public func toggleClosedLoop() {
         closedLoopToggle.safeTap()

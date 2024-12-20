@@ -21,6 +21,9 @@ public final class TherapySettingsScreen: BaseScreen {
     private var pickerWheel: XCUIElement { app.pickerWheels.firstMatch }
     private var glucoseSafetyLimitAlertTitleText: XCUIElement { app.staticTexts["Save Glucose Safety Limit?"] }
     private var correctionRangeAlertTitleText: XCUIElement { app.staticTexts["Save Correction Range(s)?"] }
+    private var preMealRangeAlertTitleText: XCUIElement { app.staticTexts["Save Pre-Meal Range?"] }
+    private var workoutRangeAlertTitleText: XCUIElement { app.staticTexts["Save Workout Range?"] }
+    private var carbRatiosAlertTitleText: XCUIElement { app.staticTexts["Save Carb Ratios?"] }
     private var goBackAlertButton: XCUIElement { app.buttons["Go Back"] }
     private var continueAlertButton: XCUIElement { app.buttons["Continue"] }
     private var guardrailWarningText: XCUIElement { app.staticTexts["text_guardrailWarning"] }
@@ -39,9 +42,16 @@ public final class TherapySettingsScreen: BaseScreen {
     private var addNewEntryButton: XCUIElement { app.buttons["button_addNewEntry"] }
     private var cancelNewEntryButton: XCUIElement { app.buttons["button_cancelNewEntry"] }
     private var correctionRangeInformationText: XCUIElement { app.staticTexts["text_CorrectionRangeInformation"] }
+    private var preMealPresetInformationText: XCUIElement { app.staticTexts["text_Pre-MealPresetInformation"] }
+    private var workoutPresetInformationText: XCUIElement { app.staticTexts["text_WorkoutPresetInformation"] }
+    private var carbRatiosInformationText: XCUIElement { app.staticTexts["text_CarbRatiosInformation"] }
     private var doneButton: XCUIElement { app.buttons["button_done"] }
     
     //MARK: Element Queries
+    
+    private var nextToTextWarningTriangleImages: XCUIElementQuery {
+        app.images.matching(NSPredicate(format: "identifier CONTAINS 'imageNextToText_'"))
+    }
     
     private var nextToTextWarningTriangleRedImages: XCUIElementQuery {
         app.images.matching(NSPredicate(format: "identifier == 'imageNextToText_warningTriangleRed'"))
@@ -74,8 +84,13 @@ public final class TherapySettingsScreen: BaseScreen {
     private var correctionRangeValuesText: XCUIElementQuery {
         app.staticTexts.matching(NSPredicate(format: "identifier == 'correctionRangeValue'"))
     }
+    
+    private var carbRatiosValuesText: XCUIElementQuery {
+        app.staticTexts.matching(NSPredicate(format: "identifier == 'carbRatioValue'"))
+    }
         
     private var pickerWheels: XCUIElementQuery { app.pickerWheels }
+    private var closeButtons: XCUIElementQuery { app.buttons.matching(identifier: "button_close") }
     
     //MARK: Actions
     
@@ -89,19 +104,16 @@ public final class TherapySettingsScreen: BaseScreen {
     public var getGuardrailWarningValue: String { guardrailWarningText.label }
     public var getTherapySettingsEducationTitleText: String { therapySettingsEducationTitleText.getLableSafe() }
     public var getTherapySettingsTitleText: String { therapySettingsTitleText.getLableSafe() }
-    public var getCorrectionRangeValues: [String] { getElementsValues(elementQuery: correctionRangeValuesText) }
-    public var getInsulinSensitivityUnitValues: [String] { getElementsValues(elementQuery: insulinSensitivityValuesText) }
-    public var getbasalRateValues: [String] { getElementsValues(elementQuery: basalRateValuesText) }
-    public var getSectionTitleValue: [String] { getElementsValues(elementQuery: sectionTitleText) }
-    public var getSectionDescriptiveValue: [String] { getElementsValues(elementQuery: sectionDescriptiveText) }
-    public var glucoseSafetyLimitAlertExists: Bool { glucoseSafetyLimitAlertTitleText.safeExists }
-    public var guardrailWarningTextExists: Bool { guardrailWarningText.safeExists }
-    public var pickerWheelExists: Bool { pickerWheel.safeExists }
-    public var guardRailOrangeWarningTriangleImageExists: Bool { guardRailOrangeWarningTriangleImage.safeExists }
-    public var guardRailRedWarningTriangleImageExists: Bool { guardRailRedWarningTriangleImage.safeExists }
-    public var nextToTextWarningTriangleRedImageExists: Bool { nextToTextWarningTriangleRedImage.safeExists }
-    public var nextToTextWarningTriangleOrangeImageExists: Bool { nextToTextWarningTriangleOrangeImage.safeExists }
-    public var correctionRangeAlertTitleTextExists: Bool { correctionRangeAlertTitleText.safeExists }
+    public var getCorrectionRangeValues: [String] { getElementsAttributes(correctionRangeValuesText) }
+    public var getCarbRatiosValues: [String] { getElementsAttributes(carbRatiosValuesText) }
+    public var getInsulinSensitivityUnitValues: [String] { getElementsAttributes(insulinSensitivityValuesText) }
+    public var getbasalRateValues: [String] { getElementsAttributes(basalRateValuesText) }
+    public var getSectionTitleValue: [String] { getElementsAttributes(sectionTitleText) }
+    public var getSectionDescriptiveValue: [String] { getElementsAttributes(sectionDescriptiveText) }
+    
+    public var getNextToTextWarningTriangleImages: [String] {
+        getElementsAttributes(nextToTextWarningTriangleImages, "identifier")
+    }
     
     public var getNumberOfScheduledItems: Int {
         var numberOfItems = 0
@@ -152,25 +164,22 @@ public final class TherapySettingsScreen: BaseScreen {
         pickerWheel.adjust(toPickerWheelValue: value)
     }
     
-    public func setScheduleItemValues(time: String = "", minValue: String = "", maxValue: String = "") {
-        let attributeMap: [String: [String]] =
-            ["time": [time, "0"], "minValue": [minValue, "1"], "maxValue": [maxValue, "2"]]
-        
-        for attribute in attributeMap.sorted(by: { $0.value[1] < $1.value[1] }) {
-            let value = attribute.value[0]
-            let pickerWheel = Int(attribute.value[1])
+    public func setScheduleItemValues(_ attributes: [(value: String, pickerWheel: Int)], _ maxSwipes: Int = 3) {
+        for attribute in attributes {
+            let value = attribute.value
+            let pickerWheel = attribute.pickerWheel
             let swipeValues = ["lowest", "highest"]
             _ = pickerWheelExists
             
             if swipeValues.contains(value) {
-                let pickerWheelToOperate = pickerWheels.element(boundBy: pickerWheel!)
+                let pickerWheelToOperate = pickerWheels.element(boundBy: pickerWheel)
                 
-                for _ in 1...3 {
+                for _ in 1...maxSwipes {
                     value == "lowest" ? pickerWheelToOperate.swipeDown(velocity: .fast) :
                     pickerWheelToOperate.swipeUp(velocity: .fast)
                 }
             } else {
-                if !value.isEmpty { pickerWheels.element(boundBy: pickerWheel!).adjust(toPickerWheelValue: value) }
+                if !value.isEmpty { pickerWheels.element(boundBy: pickerWheel).adjust(toPickerWheelValue: value) }
             }
         }
     }
@@ -191,16 +200,31 @@ public final class TherapySettingsScreen: BaseScreen {
         saveSettingsButton.safeTap()
     }
     
-    public func tapScheduleItem(itemIndex: Int) {
+    public func tapScheduleItem(_ itemIndex: Int? = nil) {
+        let indexValue = itemIndex != nil ? String(itemIndex!) : ""
+        
         app.staticTexts
-            .matching(NSPredicate(format: "identifier CONTAINS 'schedule_item_\(itemIndex)'"))
+            .matching(NSPredicate(format: "identifier CONTAINS 'schedule_item_\(indexValue)'"))
             .firstMatch
             .safeTap()
     }
     
-    public func getScheduleItemText(itemIndex: Int) -> String {
-        app.staticTexts
-            .matching(NSPredicate(format: "identifier CONTAINS 'schedule_item_\(itemIndex)'"))
+    public func tapCloseButton() {
+        _ = closeButtons.firstMatch.safeExists
+        for index in 0..<closeButtons.count {
+            let element = closeButtons.element(boundBy: index)
+            if element.isHittable {
+                element.tap()
+                break
+            }
+        }
+    }
+    
+    public func getScheduleItemText(_ itemIndex: Int? = nil) -> String {
+        let indexValue = itemIndex != nil ? String(itemIndex!) : ""
+        
+        return app.staticTexts
+            .matching(NSPredicate(format: "identifier CONTAINS 'schedule_item_\(indexValue)'"))
             .matching(NSPredicate(format: "(label != 'Delete') AND (label != '－')"))
             .firstMatch
             .getLableSafe()
@@ -224,7 +248,21 @@ public final class TherapySettingsScreen: BaseScreen {
     public var addButtonExists: Bool { addButton.safeExists }
     public var confirmSaveButtonExists: Bool { confirmSaveButton.safeExists }
     public var correctionRangeInformationTextExists: Bool { correctionRangeInformationText.safeExists }
+    public var preMealPresetInformationTextExists: Bool { preMealPresetInformationText.safeExists }
+    public var workoutPresetInformationTextExists: Bool { workoutPresetInformationText.safeExists }
+    public var carbRatiosInformationTextExists: Bool { carbRatiosInformationText.safeExists }
     public var goBackAlertButtonExists: Bool { goBackAlertButton.safeExists }
+    public var glucoseSafetyLimitAlertExists: Bool { glucoseSafetyLimitAlertTitleText.safeExists }
+    public var guardrailWarningTextExists: Bool { guardrailWarningText.safeExists }
+    public var pickerWheelExists: Bool { pickerWheel.safeExists }
+    public var guardRailOrangeWarningTriangleImageExists: Bool { guardRailOrangeWarningTriangleImage.safeExists }
+    public var guardRailRedWarningTriangleImageExists: Bool { guardRailRedWarningTriangleImage.safeExists }
+    public var nextToTextWarningTriangleRedImageExists: Bool { nextToTextWarningTriangleRedImage.safeExists }
+    public var nextToTextWarningTriangleOrangeImageExists: Bool { nextToTextWarningTriangleOrangeImage.safeExists }
+    public var correctionRangeAlertTitleTextExists: Bool { correctionRangeAlertTitleText.safeExists }
+    public var preMealRangeAlertTitleTextExists: Bool { preMealRangeAlertTitleText.safeExists }
+    public var workoutRangeAlertTitleTextExists: Bool { workoutRangeAlertTitleText.safeExists }
+    public var carbRatiosAlertTitleTextExists: Bool { carbRatiosAlertTitleText.safeExists }
     
     public var removeScheduleItemButtonExists: Bool {
         scheduleItemText.matching(NSPredicate(format: "label == '－'")).firstMatch.safeExists
@@ -232,12 +270,16 @@ public final class TherapySettingsScreen: BaseScreen {
     
     //MARK: Private Methods
     
-    private func getElementsValues(elementQuery: XCUIElementQuery) -> [String] {
-        var elementsValues: [String] = []
+    private func getElementsAttributes(_ elementQuery: XCUIElementQuery, _ attribute: String = "label") -> [String] {
+        var elementsAttributes: [String] = []
         
         for index in 0..<elementQuery.count {
-            elementsValues.append(elementQuery.element(boundBy: index).label)
+            switch attribute {
+            case "label": elementsAttributes.append(elementQuery.element(boundBy: index).label)
+            case "identifier": elementsAttributes.append(elementQuery.element(boundBy: index).identifier)
+            default: XCTFail("Attribute '\(attribute)' is not implemented in test framework yet.")
+            }
         }
-        return elementsValues
+        return elementsAttributes
     }
 }
