@@ -32,13 +32,8 @@ public final class SystemSettingsScreen: BaseScreen {
         appNameButton.tap()
     }
     
-    public func tapNotificationsButton() {
-        notificationsButton.safeTap()
-    }
-    
-    public func tapReturnToTidepoolButton(appName: String) {
-        springBoard.buttons["Return to \(appName)"].safeTap()
-    }
+    public func tapNotificationsButton() { notificationsButton.safeTap() }
+    public func tapReturnToTidepoolButton(appName: String) { springBoard.buttons["Return to \(appName)"].safeTap() }
     
     public func toggleAllowNotifications(enableNotifications: Bool = true) {
         let shouldBeEnabled = enableNotifications ? "1" : "0"

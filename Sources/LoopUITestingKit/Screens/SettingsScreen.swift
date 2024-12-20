@@ -44,36 +44,18 @@ public final class SettingsScreen: BaseScreen {
     private var iOsPermissionsButton: XCUIElement {
         app.buttons.containing(NSPredicate(format: "label == 'iOS Permissions'")).firstMatch
     }
+    private var therapySettingsButton: XCUIElement { app.buttons["button_TherapySettings"] }
     
     // MARK: Actions
-    
-    public func tapInsulinPump() {
-        insulinPump.safeTap()
-    }
-    
-    public func tapPumpSimulatorDoneButton() {
-        pumpSimulatorDoneButton.safeTap()
-    }
-    
-    public func tapCGMManager() {
-        cgm.safeTap()
-    }
-    
-    public func tapSettingsDoneButton() {
-        settingsDoneButton.safeTap()
-    }
-    
-    public func tapAlertManagementButton() {
-        alertManagementButton.safeTap()
-    }
-    
-    public func tapiOsPermissionsButton() {
-        iOsPermissionsButton.safeTap()
-    }
-    
-    public func tapManageIosPermissionsButton() {
-        manageIosPermissionsButton.safeTap()
-    }
+        
+    public func tapInsulinPump() { insulinPump.safeTap() }
+    public func tapPumpSimulatorDoneButton() { pumpSimulatorDoneButton.safeTap() }
+    public func tapCGMManager() { cgm.safeTap() }
+    public func tapSettingsDoneButton() { settingsDoneButton.safeTap() }
+    public func tapAlertManagementButton() { alertManagementButton.safeTap() }
+    public func tapiOsPermissionsButton() { iOsPermissionsButton.safeTap() }
+    public func tapManageIosPermissionsButton() { manageIosPermissionsButton.safeTap() }
+    public func tapTherapySettingsButton() { therapySettingsButton.safeTap() }
     
     public func toggleClosedLoop() {
         closedLoopToggle.safeTap()
@@ -82,31 +64,12 @@ public final class SettingsScreen: BaseScreen {
     
     // MARK: Verifications
     
-    public var isClosedLoopToggleOn: Bool {
-        closedLoopToggle.getValueSafe() == "1"
-    }
-    
-    public var alertWarningExists: Bool {
-        alertManagementAlertWarning.safeExists
-    }
-    
-    public var alertPermissionsWarningImageExists: Bool {
-        alertPermissionsWarningImage.safeExists
-    }
-    
-    public var alertPermissionsNotificationsDisabledExists: Bool {
-        alertPermissionsNotificationsDisabled.safeExists
-    }
-    
-    public var alertPermissionsNotificationsEnabledExists: Bool {
-        alertPermissionsNotificationsEnabled.safeExists
-    }
-    
-    public var alertPermissionsCriticalAlertsDisabledExists: Bool {
-        alertPermissionsCriticalAlertsDisabled.safeExists
-    }
-    
-    public var alertPermissionsCriticalAlertsEnabledExists: Bool {
-        alertPermissionsCriticalAlertsEnabled.safeExists
-    }
+    public var isClosedLoopToggleOn: Bool { closedLoopToggle.getValueSafe() == "1" }
+    public var closedLoopToggleEnabled: Bool { closedLoopToggle.safeIsEnabled() }
+    public var alertWarningExists: Bool { alertManagementAlertWarning.safeExists }
+    public var alertPermissionsWarningImageExists: Bool { alertPermissionsWarningImage.safeExists }
+    public var alertPermissionsNotificationsDisabledExists: Bool { alertPermissionsNotificationsDisabled.safeExists }
+    public var alertPermissionsNotificationsEnabledExists: Bool { alertPermissionsNotificationsEnabled.safeExists }
+    public var alertPermissionsCriticalAlertsDisabledExists: Bool { alertPermissionsCriticalAlertsDisabled.safeExists }
+    public var alertPermissionsCriticalAlertsEnabledExists: Bool { alertPermissionsCriticalAlertsEnabled.safeExists }
 }

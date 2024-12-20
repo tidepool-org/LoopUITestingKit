@@ -20,7 +20,5 @@ public final class Notifications: BaseScreen {
     
     // MARK: Verifications
     
-    public var getNotificationLabel: String {
-        notification.getLableSafe()
-    }
+    public var getNotificationLabel: String { notification.getLableSafe() }
 }

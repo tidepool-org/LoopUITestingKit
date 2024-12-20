@@ -17,17 +17,10 @@ public final class CarbsEntryScreen: BaseScreen {
     
     // MARK: Actions
     
-    public func tapCancelCarbsEntry() {
-        cancelCarbsEntryButton.safeTap()
-    }
+    public func tapCancelCarbsEntry() { cancelCarbsEntryButton.safeTap() }
     
     // MARK: Verifications
     
-    public var simpleMealCalculatorExists: Bool {
-        simpleMealCalculatorTitleText.safeExists
-    }
-    
-    public var carbEntryScreenExists: Bool {
-        carbEntryTitleText.safeExists
-    }
+    public var simpleMealCalculatorExists: Bool { simpleMealCalculatorTitleText.safeExists }
+    public var carbEntryScreenExists: Bool { carbEntryTitleText.safeExists }
 }
