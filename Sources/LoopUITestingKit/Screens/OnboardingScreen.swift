@@ -28,6 +28,9 @@ public final class OnboardingScreen: BaseScreen {
     private var alertAllowButton: XCUIElement { springBoard.buttons["Allow"] }
     private var turnOnAllHealthCategoriesText: XCUIElement { app.tables.staticTexts["Turn On All"] }
     private var healthDoneButton: XCUIElement { app.navigationBars["Health Access"].buttons["Allow"] }
+    private var continueButton: XCUIElement { app.buttons["button_continue"] }
+    private var finishButton: XCUIElement { app.buttons["button_finish"] }
+    private var emptyCircleADayInTheLifeOther: XCUIElement { app.otherElements["emptyCircle_aDayInTheLife"] }
     
     // MARK: Actions
     
@@ -43,6 +46,24 @@ public final class OnboardingScreen: BaseScreen {
         if welcomeTitleText.safeExists {
             welcomeTitleText.press(forDuration: 2.5)
         }
+    }
+    
+    public func tapForDurationDayInLife() {
+        if emptyCircleADayInTheLifeOther.safeExists {
+            let elementPosition = emptyCircleADayInTheLifeOther.frame
+            
+            app.safePressWithDurationAtPosition(
+                tapPosition: CGPoint(x: elementPosition.minX + 1, y: elementPosition.minY + 1)
+            )
+        }
+    }
+    
+    public func tapContinueButton() {
+        continueButton.safeTap()
+    }
+    
+    public func tapFinishButton() {
+        finishButton.safeTap()
     }
     
     public func allowNotifications() {

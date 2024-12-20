@@ -21,6 +21,18 @@ extension XCUIElement {
         return exists
     }
     
+    func safePressWithDurationAtPosition(tapPosition: CGPoint, duration: TimeInterval = 3) {
+        func pressWithDurationAtPosition(position: CGPoint) {
+            let coordinate = self.coordinate(withNormalizedOffset: CGVector.zero)
+                .withOffset(CGVector(dx: position.x, dy: position.y))
+            coordinate.press(forDuration: duration)
+        }
+        
+        safe {
+            pressWithDurationAtPosition(position: tapPosition)
+        }
+    }
+    
     var safeExists: Bool {
         waitForExistence(timeout: Double(5))
     }
