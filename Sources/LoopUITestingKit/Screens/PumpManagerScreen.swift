@@ -31,33 +31,13 @@ public final class PumpManagerScreen: BaseScreen {
     
     // MARK: Actions
     
-    public func tapSuspendInsulinButton() {
-        suspendInsulinButton.safeTap()
-    }
-    
-    public func tapResumeInsulinButton() {
-        resumeInsulinButton.safeTap()
-    }
-    
-    public func tapPumpSimulatorDoneButton() {
-        doneButton.safeTap()
-    }
-    
-    public func tapPumpManagerProgressImage() {
-        pumpManagerProgressImage.press(forDuration: 10)
-    }
-    
-    public func tapPumpSettingsBackButton() {
-        pumpSettingsBackButton.safeTap()
-    }
-    
-    public func tapReservoirRemainingRow() {
-        reservoirRemainingButton.safeTap()
-    }
-    
-    public func tapReservoirRemainingTextField() {
-        reservoirRemainingTextField.safeTap()
-    }
+    public func tapSuspendInsulinButton() { suspendInsulinButton.safeTap() }
+    public func tapResumeInsulinButton() { resumeInsulinButton.safeTap() }
+    public func tapPumpSimulatorDoneButton() { doneButton.safeTap() }
+    public func tapPumpManagerProgressImage() { pumpManagerProgressImage.press(forDuration: 10) }
+    public func tapPumpSettingsBackButton() { pumpSettingsBackButton.safeTap() }
+    public func tapReservoirRemainingRow() { reservoirRemainingButton.safeTap() }
+    public func tapReservoirRemainingTextField() { reservoirRemainingTextField.safeTap() }
     
     public func clearReservoirRemainingTextField() {
         let currentTextLength = reservoirRemainingTextField.getValueSafe().count
@@ -66,41 +46,16 @@ public final class PumpManagerScreen: BaseScreen {
             .typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
     }
     
-    public func closeReservoirRemainingScreen() {
-        reservoirRemainingBackButton.safeTap()
-    }
-    
-    public func setReservoirRemainingText(value: String) {
-        reservoirRemainingTextField.typeText(value)
-    }
-    
-    public func tapDetectOcclusionButton() {
-        detectOcclusionButton.safeTap()
-    }
-    
-    public func tapResolveOcclusionButton() {
-        resolveOcclusionButton.safeTap()
-    }
-    
-    public func tapCausePumpErrorButton() {
-        causePumpErrorButton.safeTap()
-    }
-    
-    public func tapResolvePumpErrorButton() {
-        resolvePumpErrorButton.safeTap()
-    }
+    public func closeReservoirRemainingScreen() { reservoirRemainingBackButton.safeTap() }
+    public func setReservoirRemainingText(value: String) { reservoirRemainingTextField.typeText(value) }
+    public func tapDetectOcclusionButton() { detectOcclusionButton.safeTap() }
+    public func tapResolveOcclusionButton() { resolveOcclusionButton.safeTap() }
+    public func tapCausePumpErrorButton() { causePumpErrorButton.safeTap() }
+    public func tapResolvePumpErrorButton() { resolvePumpErrorButton.safeTap() }
     
     // MARK: Verifications
     
-    public var pumpSimulatorDisplayed: Bool {
-        pumpSimulatorTitle.safeExists
-    }
-    
-    public var resumeInsulinButtonExists: Bool {
-        resumeInsulinButton.safeExists
-    }
-    
-    public var suspendInsulinButtonExists: Bool {
-        suspendInsulinButton.safeExists
-    }
+    public var pumpSimulatorDisplayed: Bool { pumpSimulatorTitle.safeExists }
+    public var resumeInsulinButtonExists: Bool { resumeInsulinButton.safeExists }
+    public var suspendInsulinButtonExists: Bool { suspendInsulinButton.safeExists }
 }

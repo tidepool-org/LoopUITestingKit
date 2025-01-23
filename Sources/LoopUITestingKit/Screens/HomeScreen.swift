@@ -15,13 +15,16 @@ public final class HomeScreen: BaseScreen {
     private var settingsTabButton: XCUIElement { app.buttons["statusTableViewControllerSettingsButton"] }
         private var carbsTabButton: XCUIElement { app.buttons["statusTableViewControllerCarbsButton"] }
         private var bolusTabButton: XCUIElement { app.buttons["statusTableViewControllerBolusButton"] }
-        private var preMealTabButton: XCUIElement { app.buttons["statusTableViewPreMealButton"] }
+        private var presetsTabButton: XCUIElement { app.buttons["statusTableViewPresetsButton"] }
     
     private var hudStatusClosedLoop: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "loopCompletionHUDLoopStatusClosed").firstMatch
     }
     private var hudPumpPill: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "pumpHUDView").firstMatch
+    }
+    private var hudGlucosePill: XCUIElement {
+        app.descendants(matching: .any).matching(identifier: "glucoseHUDView").firstMatch
     }
     private var closedLoopOnAlertTitle: XCUIElement { app.staticTexts["Closed Loop ON"] }
     private var hudStatusOpenLoop: XCUIElement {
@@ -33,77 +36,33 @@ public final class HomeScreen: BaseScreen {
     }
     private var safetyNotificationsAlertCloseButton: XCUIElement { app.alerts.firstMatch.buttons["Close"] }
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
-    private var preMealDialogCancelButton: XCUIElement { app.buttons["Cancel"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
-    
+    private var navigateToGlucoseDetailsImage: XCUIElement {
+        app.images.matching(NSPredicate(format: "identifier CONTAINS 'image_navigateToGlucoseDetails_'"))
+            .firstMatch
+    }
     
     // MARK: Actions
 
-    public func getPumpPillValue() -> String {
-        hudPumpPill.getValueSafe()
-    }
-    
-    public func tapBolusEntry() {
-        bolusTabButton.safeTap()
-    }
-    
-    public func tapSettingsButton() {
-        settingsTabButton.safeTap()
-    }
-    
-    public func tapSafetyNotificationAlertCloseButton() {
-        safetyNotificationsAlertCloseButton.safeTap()
-    }
-    
-    public func tapLoopStatusOpen() {
-        hudStatusOpenLoop.safeTap()
-    }
-    
-    public func tapLoopStatusClosed() {
-        hudStatusClosedLoop.safeTap()
-    }
-    
-    public func tapLoopStatusAlertDismissButton() {
-        alertDismissButton.safeTap()
-    }
-    
-    public func tapPreMealButton() {
-        preMealTabButton.safeTap()
-    }
-    
-    public func tapPreMealDialogCancelButton() {
-        preMealDialogCancelButton.safeTap()
-    }
-    
-    public func tapCarbEntry() {
-        carbsTabButton.safeTap()
-    }
-    
-    public func tapPumpPill() {
-        hudPumpPill.safeTap()
-    }
+    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    public func tapBolusEntry() { bolusTabButton.safeTap() }
+    public func tapSettingsButton() { settingsTabButton.safeTap() }
+    public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
+    public func tapLoopStatusOpen() { hudStatusOpenLoop.safeTap() }
+    public func tapLoopStatusClosed() { hudStatusClosedLoop.safeTap() }
+    public func tapLoopStatusAlertDismissButton() { alertDismissButton.safeTap() }
+    public func tapCarbEntry() { carbsTabButton.safeTap() }
+    public func tapPumpPill() { hudPumpPill.safeTap() }
+    public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
+    public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     
     // MARK: Verifications
     
-    public var hudStatusClosedLoopExists: Bool {
-        hudStatusClosedLoop.waitForExistence(timeout: 120)
-    }
-    
-    public var hudStatusOpenLoopExists: Bool {
-        hudStatusOpenLoop.safeExists
-    }
-    
-    public var preMealButtonEnabled: Bool {
-        preMealTabButton.safeIsEnabled()
-    }
-    
-    public var closedLoopOffAlertTitleExists: Bool {
-        closedLoopOffAlertTitle.safeExists
-    }
-    
-    public var closedLoopOnAlertTitleExists: Bool {
-        closedLoopOnAlertTitle.safeExists
-    }
+    public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }
+    public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
+    public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }
+    public var closedLoopOnAlertTitleExists: Bool { closedLoopOnAlertTitle.safeExists }
+    public var navigateToGlucoseDetailsImageExists: Bool { navigateToGlucoseDetailsImage.identifier.contains("true") }
     
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))

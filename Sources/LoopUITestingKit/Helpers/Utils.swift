@@ -6,6 +6,13 @@
 //
 import XCTest
 
+enum SwipeDirection {
+    case up
+    case down
+    case left
+    case right
+}
+
 extension XCUIElement {
     func safeTap() {
         safe {
@@ -19,6 +26,18 @@ extension XCUIElement {
             tap()
         }
         return exists
+    }
+    
+    func safePressWithDurationAtPosition(tapPosition: CGPoint, duration: TimeInterval = 3) {
+        func pressWithDurationAtPosition(position: CGPoint) {
+            let coordinate = self.coordinate(withNormalizedOffset: CGVector.zero)
+                .withOffset(CGVector(dx: position.x, dy: position.y))
+            coordinate.press(forDuration: duration)
+        }
+        
+        safe {
+            pressWithDurationAtPosition(position: tapPosition)
+        }
     }
     
     var safeExists: Bool {
@@ -88,6 +107,25 @@ extension XCUIApplication {
             }
             deleteAppButton.safeTap()
             finalDeleteButton.safeTap()
+        }
+    }
+    
+    func swipeToElement(
+        element: XCUIElement,
+        swipeDirection: SwipeDirection,
+        swipeVelocity: XCUIGestureVelocity = .default
+    ) {
+        var maxAttempts = 4
+        
+        while !element.isHittable {
+            if maxAttempts == 0 { break }
+            switch swipeDirection {
+            case .up: swipeUp(velocity: swipeVelocity)
+            case .down: swipeDown(velocity: swipeVelocity)
+            case .left: swipeLeft(velocity: swipeVelocity)
+            case .right: swipeRight(velocity: swipeVelocity)
+            }
+            maxAttempts -= 1
         }
     }
 }
