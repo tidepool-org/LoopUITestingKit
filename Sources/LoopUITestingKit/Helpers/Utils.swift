@@ -108,6 +108,7 @@ extension XCUIApplication {
             deleteAppButton.safeTap()
             finalDeleteButton.safeTap()
         }
+        sleep(10)
     }
     
     func swipeToElement(
