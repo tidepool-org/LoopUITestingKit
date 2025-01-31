@@ -48,7 +48,20 @@ extension XCUIElement {
         if safeExists {
             action()
         } else {
-            XCTFail("Element \(self) does not exist!")
+            XCTFail(
+                """
+                Element \(self) does not exist!\n
+                =======================================================================================================
+                App screen source:
+                =======================================================================================================
+                \(debugDescription)
+                
+                =======================================================================================================
+                Springboard screen source:
+                =======================================================================================================
+                \(XCUIApplication(bundleIdentifier:"com.apple.springboard").debugDescription)
+                """
+            )
         }
     }
     
