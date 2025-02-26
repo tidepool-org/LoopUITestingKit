@@ -60,6 +60,11 @@ public final class HomeScreen: BaseScreen {
         return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
     }
     
+
+
+    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe()}
+
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
@@ -71,7 +76,7 @@ public final class HomeScreen: BaseScreen {
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
-    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+
     
     public func getHudGlucosePillValue() -> [String] {
         let outOfRangeValues = Set(["HIGH", "LOW"])
