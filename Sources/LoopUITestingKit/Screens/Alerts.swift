@@ -25,5 +25,7 @@ public final class Alerts: BaseScreen {
     
     public func tapAlertFirstButton() { alertFirstButton.safeTap() }
     public func tapAlertSecondButton() { alertSecondButton.safeTap() }
+    
+    // MARK: Verifications
     public func waitForAlertTitleExists(timeout: Double) { _ = alertTitle.waitForExistence(timeout: timeout) }
 }
