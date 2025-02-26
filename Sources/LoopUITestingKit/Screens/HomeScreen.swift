@@ -45,6 +45,7 @@ public final class HomeScreen: BaseScreen {
     // MARK: Actions
 
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe()}
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
