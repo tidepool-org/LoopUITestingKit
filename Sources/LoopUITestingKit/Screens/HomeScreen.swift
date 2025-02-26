@@ -47,11 +47,17 @@ public final class HomeScreen: BaseScreen {
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
     
     // MARK: Actions
+
     
     public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
     public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
     public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
     
+
+
+    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe()}
+
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
