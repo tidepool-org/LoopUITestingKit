@@ -24,6 +24,7 @@ public final class TherapySettingsScreen: BaseScreen {
     private var preMealRangeAlertTitleText: XCUIElement { app.staticTexts["Save Pre-Meal Range?"] }
     private var workoutRangeAlertTitleText: XCUIElement { app.staticTexts["Save Workout Range?"] }
     private var carbRatiosAlertTitleText: XCUIElement { app.staticTexts["Save Carb Ratios?"] }
+    private var insulinSensitivitiesAlertTitleText: XCUIElement { app.staticTexts["Save Insulin Sensitivities?"] }
     private var goBackAlertButton: XCUIElement { app.buttons["Go Back"] }
     private var continueAlertButton: XCUIElement { app.buttons["Continue"] }
     private var guardrailWarningText: XCUIElement { app.staticTexts["text_guardrailWarning"] }
@@ -45,9 +46,21 @@ public final class TherapySettingsScreen: BaseScreen {
     private var preMealPresetInformationText: XCUIElement { app.staticTexts["text_Pre-MealPresetInformation"] }
     private var workoutPresetInformationText: XCUIElement { app.staticTexts["text_WorkoutPresetInformation"] }
     private var carbRatiosInformationText: XCUIElement { app.staticTexts["text_CarbRatiosInformation"] }
+    private var basalRatesInfromationText: XCUIElement { app.staticTexts["text_BasalRatesInformation"] }
+    private var insulinModelInformationText: XCUIElement { app.staticTexts["text_InsulinModelInformation"] }
+    private var insulinSensitivitiesInformationText: XCUIElement { app.staticTexts["text_InsulinSensitivitiesInformation"] }
     private var doneButton: XCUIElement { app.buttons["button_done"] }
+    private var maxBasalRateItem: XCUIElement { app.staticTexts["text_MaximumBasalRateLimit"] }
+    private var maxBolusItem: XCUIElement { app.staticTexts["text_MaximumBolusLimit"] }
+    private var rapidActingAdultsButton: XCUIElement { app.buttons["item_RapidActingAdults"] }
+    private var rapidActingChildrenButton: XCUIElement { app.buttons["item_RapidActingChildren"] }
+    private var insulinModelTitleText: XCUIElement { app.staticTexts["text_InsulinModelTitle"] }
     
     //MARK: Element Queries
+    
+    private var infoCircleButtons: XCUIElementQuery {
+        app.buttons.matching(NSPredicate(format: "identifier CONTAINS 'info.circle'"))
+    }
     
     private var nextToTextWarningTriangleImages: XCUIElementQuery {
         app.images.matching(NSPredicate(format: "identifier CONTAINS 'imageNextToText_'"))
@@ -62,7 +75,7 @@ public final class TherapySettingsScreen: BaseScreen {
     }
     
     private var insulinSensitivityValuesText: XCUIElementQuery {
-        app.staticTexts.matching(NSPredicate(format: "identifier == 'insulinSensitivitySection'"))
+        app.staticTexts.matching(NSPredicate(format: "identifier == 'insulinSensitivityValue'"))
     }
     
     private var basalRateValuesText: XCUIElementQuery {
@@ -94,6 +107,7 @@ public final class TherapySettingsScreen: BaseScreen {
     
     //MARK: Actions
     
+    public var getInsulinModelTitleValue: String { insulinModelTitleText.firstMatch.getLableSafe() }
     public var getBaselRateTotalValue: String { baselRateTotalValueText.label }
     public var getMaxBasalRateValue: String { maxBasalRateValueText.label }
     public var getMaxBolusValue: String { maxBolusValueText.label }
@@ -113,6 +127,10 @@ public final class TherapySettingsScreen: BaseScreen {
     
     public var getNextToTextWarningTriangleImages: [String] {
         getElementsAttributes(nextToTextWarningTriangleImages, "identifier")
+    }
+    
+    public var getNumberOfInfoCircleButtons: Int {
+        return infoCircleButtons.firstMatch.safeExists ? infoCircleButtons.count : 0
     }
     
     public var getNumberOfScheduledItems: Int {
@@ -189,11 +207,16 @@ public final class TherapySettingsScreen: BaseScreen {
     public func tapConfirmSaveButton() { confirmSaveButton.safeTap() }
     public func tapSetGlucoseValueText() { setGlucoseValueText.safeTap() }
     public func tapInfoCircleButton() { infoCircleButton.safeTap() }
+    public func tapInforCircleButton(index: Int) { infoCircleButtons.element(boundBy: index).safeTap() }
     public func tapAddButton() { addButton.safeTap() }
     public func tapAddNewEntryButton() { addNewEntryButton.safeTap() }
     public func tapCancelNewEntryButton() { cancelNewEntryButton.safeTap() }
     public func tapEditButton() { editButton.safeTap() }
     public func tapDoneButton() { doneButton.safeTap() }
+    public func tapMaxBasalRateItem() { maxBasalRateItem.safeTap() }
+    public func tapMaxBolusItem() { maxBolusItem.safeTap() }
+    public func tapRapidActingAdults() { rapidActingAdultsButton.safeTap() }
+    public func tapRapidActingChildren() { rapidActingChildrenButton.safeTap() }
     
     public func tapSaveSettingsButton() {
         app.swipeToElement(element: saveSettingsButton, swipeDirection: .up, swipeVelocity: .fast)
@@ -251,6 +274,9 @@ public final class TherapySettingsScreen: BaseScreen {
     public var preMealPresetInformationTextExists: Bool { preMealPresetInformationText.safeExists }
     public var workoutPresetInformationTextExists: Bool { workoutPresetInformationText.safeExists }
     public var carbRatiosInformationTextExists: Bool { carbRatiosInformationText.safeExists }
+    public var basalRatesInfromationTextExists: Bool { basalRatesInfromationText.safeExists }
+    public var insulinModelInformationTextExists: Bool { insulinModelInformationText.safeExists }
+    public var insulinSensitivitiesInformationTextExists: Bool { insulinSensitivitiesInformationText.safeExists }
     public var goBackAlertButtonExists: Bool { goBackAlertButton.safeExists }
     public var glucoseSafetyLimitAlertExists: Bool { glucoseSafetyLimitAlertTitleText.safeExists }
     public var guardrailWarningTextExists: Bool { guardrailWarningText.safeExists }
@@ -263,7 +289,8 @@ public final class TherapySettingsScreen: BaseScreen {
     public var preMealRangeAlertTitleTextExists: Bool { preMealRangeAlertTitleText.safeExists }
     public var workoutRangeAlertTitleTextExists: Bool { workoutRangeAlertTitleText.safeExists }
     public var carbRatiosAlertTitleTextExists: Bool { carbRatiosAlertTitleText.safeExists }
-    
+    public var insulinSensitivitiesAlertTitleTextExists: Bool { insulinSensitivitiesAlertTitleText.safeExists }
+        
     public var removeScheduleItemButtonExists: Bool {
         scheduleItemText.matching(NSPredicate(format: "label == '－'")).firstMatch.safeExists
     }
