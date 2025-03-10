@@ -9,13 +9,13 @@ import XCTest
 
 public class PumpScreens: BaseScreen {
     
-    //MARK: Elements
+    // MARK: Elements
     
     private var actionSheetPumpSimulatorButton: XCUIElement {
         app.buttons["Pump Simulator"]
     }
     
-    //MARK: Actions
+    // MARK: Actions
     
     public func tapActionSheetPumpSimulatorButton() { actionSheetPumpSimulatorButton.safeTap() }
 }
