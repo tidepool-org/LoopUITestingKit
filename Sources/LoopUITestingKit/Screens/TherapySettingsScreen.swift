@@ -49,14 +49,13 @@ public final class TherapySettingsScreen: BaseScreen {
     private var basalRatesInfromationText: XCUIElement { app.staticTexts["text_BasalRatesInformation"] }
     private var insulinModelInformationText: XCUIElement { app.staticTexts["text_InsulinModelInformation"] }
     private var insulinSensitivitiesInformationText: XCUIElement { app.staticTexts["text_InsulinSensitivitiesInformation"] }
-    private var doneButton: XCUIElement { app.buttons["button_done"] }
     private var maxBasalRateItem: XCUIElement { app.staticTexts["text_MaximumBasalRateLimit"] }
     private var maxBolusItem: XCUIElement { app.staticTexts["text_MaximumBolusLimit"] }
     private var rapidActingAdultsButton: XCUIElement { app.buttons["item_RapidActingAdults"] }
     private var rapidActingChildrenButton: XCUIElement { app.buttons["item_RapidActingChildren"] }
     private var insulinModelTitleText: XCUIElement { app.staticTexts["text_InsulinModelTitle"] }
     
-    //MARK: Element Queries
+    // MARK: Element Queries
     
     private var infoCircleButtons: XCUIElementQuery {
         app.buttons.matching(NSPredicate(format: "identifier CONTAINS 'info.circle'"))
@@ -105,7 +104,7 @@ public final class TherapySettingsScreen: BaseScreen {
     private var pickerWheels: XCUIElementQuery { app.pickerWheels }
     private var closeButtons: XCUIElementQuery { app.buttons.matching(identifier: "button_close") }
     
-    //MARK: Actions
+    // MARK: Actions
     
     public var getInsulinModelTitleValue: String { insulinModelTitleText.firstMatch.getLableSafe() }
     public var getBaselRateTotalValue: String { baselRateTotalValueText.label }
@@ -212,7 +211,6 @@ public final class TherapySettingsScreen: BaseScreen {
     public func tapAddNewEntryButton() { addNewEntryButton.safeTap() }
     public func tapCancelNewEntryButton() { cancelNewEntryButton.safeTap() }
     public func tapEditButton() { editButton.safeTap() }
-    public func tapDoneButton() { doneButton.safeTap() }
     public func tapMaxBasalRateItem() { maxBasalRateItem.safeTap() }
     public func tapMaxBolusItem() { maxBolusItem.safeTap() }
     public func tapRapidActingAdults() { rapidActingAdultsButton.safeTap() }
@@ -263,7 +261,7 @@ public final class TherapySettingsScreen: BaseScreen {
         scheduleItem.matching(NSPredicate(format: "label == 'Delete'")).firstMatch.safeTap()
     }
         
-    //MARK: Verifications
+    // MARK: Verifications
     
     public var therapySettingsTitleTextExists: Bool { therapySettingsTitleText.waitForExistence(timeout: 2) }
     public var editButtonExists: Bool { editButton.safeExists }
@@ -295,7 +293,7 @@ public final class TherapySettingsScreen: BaseScreen {
         scheduleItemText.matching(NSPredicate(format: "label == '－'")).firstMatch.safeExists
     }
     
-    //MARK: Private Methods
+    // MARK: Private Methods
     
     private func getElementsAttributes(_ elementQuery: XCUIElementQuery, _ attribute: String = "label") -> [String] {
         var elementsAttributes: [String] = []

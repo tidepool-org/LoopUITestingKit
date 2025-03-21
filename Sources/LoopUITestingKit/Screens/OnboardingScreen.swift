@@ -32,7 +32,6 @@ public final class OnboardingScreen: BaseScreen {
     private var continueButton: XCUIElement { app.buttons["button_continue"] }
     private var finishButton: XCUIElement { app.buttons["button_finish"] }
     private var closeButton: XCUIElement { app.buttons["button_close"] }
-    private var backButton: XCUIElement { app.buttons["button_back"] }
     private var emptyCircleADayInTheLifeOther: XCUIElement { app.otherElements["emptyCircle_aDayInTheLife"] }
     private var yourSettingsButton: XCUIElement { app.buttons["button_your_settings"] }
     private var yourTidePoolAccountTitle: XCUIElement { app.staticTexts["Your Tidepool Account"] }
@@ -85,8 +84,7 @@ public final class OnboardingScreen: BaseScreen {
     public func tapContinueButton() { continueButton.safeTap() }
     public func tapFinishButton() { finishButton.safeTap() }
     public func tapCloseButton() { closeButton.safeTap() }
-    public func tapBackButton() { backButton.safeTap() }
-    
+        
     public func allowNotifications() {
         if allowNotificationsAlert.waitForExistence(timeout: longWait) {
             alertAllowButton.safeTap()
@@ -115,7 +113,6 @@ public final class OnboardingScreen: BaseScreen {
     
     public var skipOnboardingAlertExists: Bool { skipOnboardingAlert.safeExists }
     public var closeButtonExists: Bool { closeButton.safeExists }
-    public var backButtonExists: Bool { backButton.safeExists }
     public var continueButtonExists: Bool { continueButton.safeExists }
     public var yourSettingsButtonIsHittable: Bool { yourSettingsButton.safeExists && yourSettingsButton.isHittable }
 }

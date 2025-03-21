@@ -9,13 +9,13 @@ import XCTest
 
 public final class CGMScreens: BaseScreen {
     
-    //MARK: Elements
+    // MARK: Elements
     
     private var actionSheetCgmSimulatorButton: XCUIElement {
         app.buttons["CGM Simulator"]
     }
     
-    //MARK: Actions
+    // MARK: Actions
     
     public func tapActionSheetCgmSimulatorButton() { actionSheetCgmSimulatorButton.safeTap() }
 }

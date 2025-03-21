@@ -24,7 +24,7 @@ public final class HomeScreen: BaseScreen {
         app.descendants(matching: .any).matching(identifier: "pumpHUDView").firstMatch
     }
     private var hudGlucosePill: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "glucoseHUDView").firstMatch
+        app.descendants(matching: .any).matching(NSPredicate(format: "identifier CONTAINS 'glucoseHUDView'")).firstMatch
     }
     private var closedLoopOnAlertTitle: XCUIElement { app.staticTexts["Closed Loop ON"] }
     private var hudStatusOpenLoop: XCUIElement {
@@ -41,10 +41,16 @@ public final class HomeScreen: BaseScreen {
         app.images.matching(NSPredicate(format: "identifier CONTAINS 'image_navigateToGlucoseDetails_'"))
             .firstMatch
     }
+    private var percentCompletedProgressBar: XCUIElement {
+        app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
+            .firstMatch
+    }
     
     // MARK: Actions
+    
+    public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
+    public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
 
-    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
@@ -55,6 +61,21 @@ public final class HomeScreen: BaseScreen {
     public func tapPumpPill() { hudPumpPill.safeTap() }
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
+    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    
+    public func getHudGlucosePillValue() -> [String] {
+        let outOfRangeValues = Set(["HIGH", "LOW"])
+        var cgmValues = hudGlucosePill.getValueSafe().components(separatedBy: ", ")
+        _ = hudGlucosePill.safeExists
+        
+        if outOfRangeValues.contains(where: { hudGlucosePill.identifier.hasSuffix($0) }) {
+            let regex = try! Regex(#"\d+\.\d+"#) // Regex for "digit.digit "
+            
+            // identifier contains string as glucoseHUDView_LOW
+            cgmValues[0] = cgmValues[0].replacing(regex) { match in hudGlucosePill.identifier.components(separatedBy: "_")[1] }
+        }
+        return cgmValues
+    }
     
     // MARK: Verifications
     
