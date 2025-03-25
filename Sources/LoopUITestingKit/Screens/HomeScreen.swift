@@ -37,10 +37,7 @@ public final class HomeScreen: BaseScreen {
     private var safetyNotificationsAlertCloseButton: XCUIElement { app.alerts.firstMatch.buttons["Close"] }
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
-    private var navigateToGlucoseDetailsImage: XCUIElement {
-        app.images.matching(NSPredicate(format: "identifier CONTAINS 'image_navigateToGlucoseDetails_'"))
-            .firstMatch
-    }
+    private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
@@ -83,7 +80,13 @@ public final class HomeScreen: BaseScreen {
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
     public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }
     public var closedLoopOnAlertTitleExists: Bool { closedLoopOnAlertTitle.safeExists }
-    public var navigateToGlucoseDetailsImageExists: Bool { navigateToGlucoseDetailsImage.identifier.contains("true") }
+    public var navigationToGlucoseDetailsIsDisabled: Bool {
+        navigateToGlucoseDetailsText.safeTap()
+        let isDisabled = navigateToGlucoseDetailsText.safeExists
+        
+        if !isDisabled { NavigationBar(app: app).tapBackButton() }
+        return isDisabled
+    }
     
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
