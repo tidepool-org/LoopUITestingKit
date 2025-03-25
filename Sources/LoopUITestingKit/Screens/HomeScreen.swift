@@ -38,6 +38,7 @@ public final class HomeScreen: BaseScreen {
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
     private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
+    private var navigateToActiveCarbsDetailsText: XCUIElement { app.staticTexts["chartTitleText_ActiveCarbohydrates"] }
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
@@ -58,6 +59,7 @@ public final class HomeScreen: BaseScreen {
     public func tapPumpPill() { hudPumpPill.safeTap() }
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
+    public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
     
     public func getHudGlucosePillValue() -> [String] {

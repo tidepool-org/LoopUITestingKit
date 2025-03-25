@@ -14,7 +14,7 @@ public final class CarbsEntryScreen: BaseScreen {
     private var simpleMealCalculatorTitleText: XCUIElement { app.navigationBars.staticTexts["Simple Meal Calculator"] }
     private var cancelCarbsEntryButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var carbEntryTitleText: XCUIElement { app.navigationBars.staticTexts["Add Carb Entry"] }
-    private var carbsConsumedTextField: XCUIElement { app.textFields["textField_CarbsAmount"] }
+    private var carbsConsumedTextField: XCUIElement { app.otherElements["textField_CarbsAmount"] }
     private var continueButton: XCUIElement { app.buttons["button_Continue"] }
     
     // MARK: Actions
