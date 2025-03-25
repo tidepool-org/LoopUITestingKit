@@ -38,16 +38,20 @@ public final class HomeScreen: BaseScreen {
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
     private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
+    private var navigateToActiveCarbsDetailsText: XCUIElement { app.staticTexts["chartTitleText_ActiveCarbohydrates"] }
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
     }
+    private var bolusProgressText: XCUIElement { app.staticTexts["text_BolusingProgress"] }
+    private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
     
     // MARK: Actions
     
     public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
     public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
-
+    public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
+    
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
@@ -58,6 +62,7 @@ public final class HomeScreen: BaseScreen {
     public func tapPumpPill() { hudPumpPill.safeTap() }
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
+    public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
     
     public func getHudGlucosePillValue() -> [String] {
@@ -66,16 +71,20 @@ public final class HomeScreen: BaseScreen {
         _ = hudGlucosePill.safeExists
         
         if outOfRangeValues.contains(where: { hudGlucosePill.identifier.hasSuffix($0) }) {
-            let regex = try! Regex(#"\d+\.\d+"#) // Regex for "digit.digit "
+            let regex = try! Regex(#"\d+ "#) // Regex for "digit " when using mg/dL as units
             
             // identifier contains string as glucoseHUDView_LOW
-            cgmValues[0] = cgmValues[0].replacing(regex) { match in hudGlucosePill.identifier.components(separatedBy: "_")[1] }
+            cgmValues[0] = cgmValues[0].replacing(regex) {
+                match in "\(hudGlucosePill.identifier.components(separatedBy: "_")[1]) "
+            }
         }
         return cgmValues
     }
     
     // MARK: Verifications
     
+    public var bolusProgressTextExists: Bool { bolusProgressText.safeExists }
+    public var tapToStopTextExists: Bool { tapToStopText.safeExists }
     public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
     public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }

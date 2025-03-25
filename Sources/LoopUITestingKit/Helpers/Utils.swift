@@ -6,7 +6,7 @@
 //
 import XCTest
 
-enum SwipeDirection {
+public enum SwipeDirection {
     case up
     case down
     case left
