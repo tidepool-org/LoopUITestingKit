@@ -32,6 +32,7 @@ public final class CGMManagerScreen: BaseScreen {
     private var warningThresholdCell: XCUIElement { app.cells["cell_WarningThreshold"] }
     private var criticalThresholdCell: XCUIElement { app.cells["cell_CriticalThreshold"] }
     private var cgmUpperLimitCell: XCUIElement { app.cells["cell_CgmUpperLimit"] }
+    private var cgmLowerLimitCell: XCUIElement { app.cells["cell_CgmLowerLimit"] }
     private var highGlucoseThresholdCell: XCUIElement { app.cells["cell_HighGlucoseThreshold"] }
     private var lowGlucoseThresholdCell: XCUIElement { app.cells["cell_LowGlucoseThreshold"] }
     private var urgentLowGlucoseThresholdCell: XCUIElement { app.cells["cell_UrgentLowGlucoseThreshold"] }
@@ -62,6 +63,7 @@ public final class CGMManagerScreen: BaseScreen {
     public func tapWarningThresholdCell() { warningThresholdCell.safeTap() }
     public func tapCriticalThresholdCell() { criticalThresholdCell.safeTap() }
     public func tapCgmUpperLimitCell() { cgmUpperLimitCell.safeTap() }
+    public func tapCgmLowerLimitCell() { cgmLowerLimitCell.safeTap() }
     public func tapHighGlucoseThresholdCell() { highGlucoseThresholdCell.safeTap() }
     public func tapLowGlucoseThresholdCell() { lowGlucoseThresholdCell.safeTap() }
     public func tapUrgentLowGlucoseThresholdCell() { urgentLowGlucoseThresholdCell.safeTap() }
