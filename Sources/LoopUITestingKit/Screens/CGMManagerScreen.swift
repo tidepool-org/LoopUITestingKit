@@ -31,7 +31,7 @@ public final class CGMManagerScreen: BaseScreen {
     private var backfillGlucoseCell: XCUIElement { app.cells["cell_BackfillGlucose"].firstMatch }
     private var warningThresholdCell: XCUIElement { app.cells["cell_WarningThreshold"] }
     private var criticalThresholdCell: XCUIElement { app.cells["cell_CriticalThreshold"] }
-    private var cgmUpperLimitCell: XCUIElement { app.cells["cell_CgmUpperLimit"] }
+    private var cgmUpperLimitCell: XCUIElement { app.cells["cell_CgmUpperLimit"].firstMatch }
     private var cgmLowerLimitCell: XCUIElement { app.cells["cell_CgmLowerLimit"] }
     private var highGlucoseThresholdCell: XCUIElement { app.cells["cell_HighGlucoseThreshold"] }
     private var lowGlucoseThresholdCell: XCUIElement { app.cells["cell_LowGlucoseThreshold"] }
