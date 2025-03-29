@@ -24,7 +24,7 @@ public final class HomeScreen: BaseScreen {
         app.descendants(matching: .any).matching(identifier: "pumpHUDView").firstMatch
     }
     private var hudGlucosePill: XCUIElement {
-        app.descendants(matching: .any).matching(identifier: "glucoseHUDView").firstMatch
+        app.descendants(matching: .any).matching(NSPredicate(format: "identifier CONTAINS 'glucoseHUDView'")).firstMatch
     }
     private var closedLoopOnAlertTitle: XCUIElement { app.staticTexts["Closed Loop ON"] }
     private var hudStatusOpenLoop: XCUIElement {
@@ -37,15 +37,17 @@ public final class HomeScreen: BaseScreen {
     private var safetyNotificationsAlertCloseButton: XCUIElement { app.alerts.firstMatch.buttons["Close"] }
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
-    private var navigateToGlucoseDetailsImage: XCUIElement {
-        app.images.matching(NSPredicate(format: "identifier CONTAINS 'image_navigateToGlucoseDetails_'"))
+    private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
+    private var percentCompletedProgressBar: XCUIElement {
+        app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
     }
     
     // MARK: Actions
+    
+    public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
+    public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
 
-    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
-    public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe()}
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
@@ -56,6 +58,21 @@ public final class HomeScreen: BaseScreen {
     public func tapPumpPill() { hudPumpPill.safeTap() }
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
+    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    
+    public func getHudGlucosePillValue() -> [String] {
+        let outOfRangeValues = Set(["HIGH", "LOW"])
+        var cgmValues = hudGlucosePill.getValueSafe().components(separatedBy: ", ")
+        _ = hudGlucosePill.safeExists
+        
+        if outOfRangeValues.contains(where: { hudGlucosePill.identifier.hasSuffix($0) }) {
+            let regex = try! Regex(#"\d+\.\d+"#) // Regex for "digit.digit "
+            
+            // identifier contains string as glucoseHUDView_LOW
+            cgmValues[0] = cgmValues[0].replacing(regex) { match in hudGlucosePill.identifier.components(separatedBy: "_")[1] }
+        }
+        return cgmValues
+    }
     
     // MARK: Verifications
     
@@ -63,7 +80,13 @@ public final class HomeScreen: BaseScreen {
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
     public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }
     public var closedLoopOnAlertTitleExists: Bool { closedLoopOnAlertTitle.safeExists }
-    public var navigateToGlucoseDetailsImageExists: Bool { navigateToGlucoseDetailsImage.identifier.contains("true") }
+    public var navigationToGlucoseDetailsIsDisabled: Bool {
+        navigateToGlucoseDetailsText.safeTap()
+        let isDisabled = navigateToGlucoseDetailsText.safeExists
+        
+        if !isDisabled { NavigationBar(app: app).tapBackButton() }
+        return isDisabled
+    }
     
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
