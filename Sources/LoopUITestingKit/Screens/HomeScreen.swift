@@ -39,6 +39,7 @@ public final class HomeScreen: BaseScreen {
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
     private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
     private var navigateToActiveCarbsDetailsText: XCUIElement { app.staticTexts["chartTitleText_ActiveCarbohydrates"] }
+
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
@@ -47,6 +48,9 @@ public final class HomeScreen: BaseScreen {
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
     
     // MARK: Actions
+    
+    public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
+    public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
 
     
     public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
@@ -83,6 +87,10 @@ public final class HomeScreen: BaseScreen {
             cgmValues[0] = cgmValues[0].replacing(regex) {
                 match in "\(hudGlucosePill.identifier.components(separatedBy: "_")[1]) "
             }
+            let regex = try! Regex(#"\d+\.\d+"#) // Regex for "digit.digit "
+            
+            // identifier contains string as glucoseHUDView_LOW
+            cgmValues[0] = cgmValues[0].replacing(regex) { match in hudGlucosePill.identifier.components(separatedBy: "_")[1] }
         }
         return cgmValues
     }
