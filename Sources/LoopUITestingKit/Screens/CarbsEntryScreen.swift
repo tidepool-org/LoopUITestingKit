@@ -138,6 +138,7 @@ public final class CarbsEntryScreen: BaseScreen {
         if let minutes = minutes { pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: minutes) }
         absorbtionTimeText.safeTap()
     }
+     public func taptapToStopActionButton() { tapToStopActionButton.safeTap() }
     
     // MARK: Verifications
     
