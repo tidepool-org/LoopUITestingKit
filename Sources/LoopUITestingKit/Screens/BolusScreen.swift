@@ -12,12 +12,8 @@ public final class BolusScreen: BaseScreen {
     // MARK: Elements
 
     private var bolusTitleText: XCUIElement { app.navigationBars.staticTexts["Bolus"] }
-    private var currentGlucoseEntryTextField: XCUIElement {
-        app.textFields.matching(NSPredicate(format: "identifier CONTAINS 'Current Glucose'")).firstMatch
-    }
-    private var bolusEntryTextField: XCUIElement {
-        app.textFields.matching(NSPredicate(format: "identifier CONTAINS 'Bolus'")).lastMatch
-    }
+    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["Current Glucose"] }
+    private var bolusEntryTextField: XCUIElement { app.textFields["Bolus"] }
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
