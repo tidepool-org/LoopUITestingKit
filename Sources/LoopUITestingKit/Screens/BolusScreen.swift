@@ -13,10 +13,10 @@ public final class BolusScreen: BaseScreen {
 
     private var bolusTitleText: XCUIElement { app.navigationBars.staticTexts["Bolus"] }
     private var currentGlucoseEntryTextField: XCUIElement {
-        app.textFields.matching(NSPredicate(format: "identifier CONTAINS 'dismissibleKeyboardTextField'")).firstMatch
+        app.textFields.matching(NSPredicate(format: "identifier CONTAINS 'Current Glucose'")).firstMatch
     }
     private var bolusEntryTextField: XCUIElement {
-        app.textFields.matching(NSPredicate(format: "identifier CONTAINS 'dismissibleKeyboardTextField'")).lastMatch
+        app.textFields.matching(NSPredicate(format: "identifier CONTAINS 'Bolus'")).lastMatch
     }
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
