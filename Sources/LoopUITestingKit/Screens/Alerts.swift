@@ -9,14 +9,14 @@ import XCTest
 
 public final class Alerts: BaseScreen {
     
-    //MARK: Elements
+    // MARK: Elements
     
     private var alertTitle: XCUIElement { app.alerts.firstMatch.staticTexts.element(boundBy: 0) }
     private var alertBody: XCUIElement { app.alerts.firstMatch.staticTexts.element(boundBy: 1) }
     private var alertFirstButton: XCUIElement { app.alerts.firstMatch.buttons.element(boundBy: 0) }
     private var alertSecondButton: XCUIElement { app.alerts.firstMatch.buttons.element(boundBy: 1) }
     
-    //MARK: Actions
+    // MARK: Actions
     
     public var getAlertTitleText: String { alertTitle.getLableSafe() }
     public var getAlertBodyText: String { alertBody.getLableSafe() }
@@ -25,4 +25,5 @@ public final class Alerts: BaseScreen {
     
     public func tapAlertFirstButton() { alertFirstButton.safeTap() }
     public func tapAlertSecondButton() { alertSecondButton.safeTap() }
+    public func waitForAlertTitleExists(timeout: Double) { _ = alertTitle.waitForExistence(timeout: timeout) }
 }
