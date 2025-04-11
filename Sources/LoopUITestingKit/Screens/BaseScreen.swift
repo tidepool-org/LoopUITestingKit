@@ -8,7 +8,7 @@
 import XCTest
 
 extension XCUIElementQuery {
-    var lastMatch : XCUIElement {return self.element(boundBy: self.count - 1)}
+    var lastMatch : XCUIElement { return self.element(boundBy: self.count - 1) }
 }
 
 open class BaseScreen {

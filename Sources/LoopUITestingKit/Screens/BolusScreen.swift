@@ -23,7 +23,7 @@ public final class BolusScreen: BaseScreen {
     
    
     // Warnings
-    private var glucoseEntryOutOfRangeWarning: XCUIElement { app.staticTexts["staticText_glucoseEntryOutOfRange"] }
+    private var glucoseEntryOutOfRangeWarning: XCUIElement { app.staticTexts["text_guardrailWarning"] }
     
     
     
