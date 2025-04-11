@@ -12,19 +12,18 @@ public final class BolusScreen: BaseScreen {
     // MARK: Elements
 
     private var bolusTitleText: XCUIElement { app.navigationBars.staticTexts["Bolus"] }
-    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["Current Glucose Field"]}
-    private var bolusEntryTextField: XCUIElement { app.textFields["Bolus Field"]}
+    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_currentGlucose"]}
+    private var bolusEntryTextField: XCUIElement { app.textFields["textField_currentGlucose"]}
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
-    private var saveAndDeliverButton: XCUIElement { app.buttons["Save and Deliver"] }
     
     private var passcodeEntry: XCUIElement { springBoard.secureTextFields["Passcode field"] }
     private var keyboardDoneButton: XCUIElement { app.toolbars.firstMatch.buttons["Done"].firstMatch }
     
    
     // Warnings
-    private var glucoseEntryRangeWarning: XCUIElement { app.staticTexts["Glucose Entry Out of Range"] }
+    private var glucoseEntryOutOfRangeWarning: XCUIElement { app.staticTexts["staticText_glucoseEntryOutOfRange"] }
     
     
     
@@ -38,7 +37,6 @@ public final class BolusScreen: BaseScreen {
     public func tapCurrentGlucoseEntryTextField() {currentGlucoseEntryTextField.safeTap()}
     public func tapBolusEntryTextField() { bolusEntryTextField.safeTap() }
     public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
-    public func tapSaveAndDeliverButton() {saveAndDeliverButton.safeForceTap()}
     public func getBolusFieldValue() -> String { bolusEntryTextField.getValueSafe() }
     
     
@@ -70,5 +68,5 @@ public final class BolusScreen: BaseScreen {
     
     public var bolusTitleExists: Bool { bolusTitleText.safeExists }
     public var simpleBolusCalculatorTitleExists: Bool { simpleBolusCalculatorTitle.safeExists }
-    public var glucoseEntryRangeWarningExists: Bool { glucoseEntryRangeWarning.safeExists }
+    public var glucoseEntryOutOfRangeWarningExists: Bool { glucoseEntryOutOfRangeWarning.safeExists }
 }
