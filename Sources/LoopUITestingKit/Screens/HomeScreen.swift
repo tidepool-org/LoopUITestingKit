@@ -51,10 +51,6 @@ public final class HomeScreen: BaseScreen {
     
     public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
     public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
-
-    
-    public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
-    public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
     public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
     
 
@@ -73,7 +69,7 @@ public final class HomeScreen: BaseScreen {
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
-    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+
     
     public func getHudGlucosePillValue() -> [String] {
         let outOfRangeValues = Set(["HIGH", "LOW"])
@@ -87,10 +83,6 @@ public final class HomeScreen: BaseScreen {
             cgmValues[0] = cgmValues[0].replacing(regex) {
                 match in "\(hudGlucosePill.identifier.components(separatedBy: "_")[1]) "
             }
-            let regex = try! Regex(#"\d+\.\d+"#) // Regex for "digit.digit "
-            
-            // identifier contains string as glucoseHUDView_LOW
-            cgmValues[0] = cgmValues[0].replacing(regex) { match in hudGlucosePill.identifier.components(separatedBy: "_")[1] }
         }
         return cgmValues
     }
