@@ -26,9 +26,6 @@ public final class BolusScreen: BaseScreen {
     private var glucoseEntryOutOfRangeWarning: XCUIElement { app.staticTexts["text_guardrailWarning"] }
     
     
-    
-    
-    
     // MARK: Actions
     
     public var getBolusActionButtonLabel: String { bolusActionButton.getLableSafe() }
@@ -38,7 +35,6 @@ public final class BolusScreen: BaseScreen {
     public func tapBolusEntryTextField() { bolusEntryTextField.safeTap() }
     public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
     public func getBolusFieldValue() -> String { bolusEntryTextField.getValueSafe() }
-    
     
     public func clearCurrentGlucoseEntryTextField() {
         let currentTextLength = currentGlucoseEntryTextField.getValueSafe().count
@@ -52,8 +48,6 @@ public final class BolusScreen: BaseScreen {
         bolusEntryTextField
             .typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
     }
-    
-   
     
     public func setPasscode() {
         passcodeEntry.safeTap()
