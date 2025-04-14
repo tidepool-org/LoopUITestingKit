@@ -35,6 +35,7 @@ public final class BolusScreen: BaseScreen {
     public func tapBolusEntryTextField() { bolusEntryTextField.safeTap() }
     public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
     public func getBolusFieldValue() -> String { bolusEntryTextField.getValueSafe() }
+    public func getCurrentGlucoseFieldValue() -> String { currentGlucoseEntryTextField.getValueSafe() }
     
     public func clearCurrentGlucoseEntryTextField() {
         let currentTextLength = currentGlucoseEntryTextField.getValueSafe().count
