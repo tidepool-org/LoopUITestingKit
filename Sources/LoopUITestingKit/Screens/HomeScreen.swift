@@ -45,6 +45,9 @@ public final class HomeScreen: BaseScreen {
     }
     private var bolusProgressText: XCUIElement { app.staticTexts["text_BolusingProgress"] }
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
+    private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
+    private var insulinSuspendedCell: XCUIElement { app.cells["cell_insulinSuspended"] }
+    private var insulinTapToResumeCell: XCUIElement { app.cells["cell_InsulinTapToResume"] }
     
     // MARK: Actions
     
@@ -80,6 +83,11 @@ public final class HomeScreen: BaseScreen {
         }
         return cgmValues
     }
+    public func taptapToStop() { tapToStopText.safeTap() }
+    public var getBolusCanceledText: String { bolusCanceledText.getLableSafe() }
+    public var getinsulinSuspendedCell: String { insulinSuspendedCell.getLableSafe() }
+    public func tapinsulinTapToResumeCell() { insulinTapToResumeCell.safeTap() }
+    
     
     // MARK: Verifications
     
@@ -100,4 +108,9 @@ public final class HomeScreen: BaseScreen {
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
     }
+    public var bolusCanceledTextExists: Bool { bolusCanceledText.safeExists }
+    public var insulinSuspendedCellExists: Bool { insulinSuspendedCell.safeExists }
+    public var insulinTapToResumeCellExists: Bool { insulinTapToResumeCell.safeExists }
+    public var bolusCanceledTextNotExists: Bool { bolusCanceledText.waitForNonExistence(timeout: 11) }
+    public var insulinSuspendedCellNotExists: Bool { insulinSuspendedCell.waitForNonExistence(timeout: 2) }
 }
