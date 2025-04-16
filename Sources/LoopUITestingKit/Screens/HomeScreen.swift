@@ -39,6 +39,7 @@ public final class HomeScreen: BaseScreen {
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
     private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
     private var navigateToActiveCarbsDetailsText: XCUIElement { app.staticTexts["chartTitleText_ActiveCarbohydrates"] }
+
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
@@ -52,6 +53,11 @@ public final class HomeScreen: BaseScreen {
     public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
     public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
     
+
+
+    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+    public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe()}
+
     public func tapBolusEntry() { bolusTabButton.safeTap() }
     public func tapSettingsButton() { settingsTabButton.safeTap() }
     public func tapSafetyNotificationAlertCloseButton() { safetyNotificationsAlertCloseButton.safeTap() }
@@ -63,7 +69,7 @@ public final class HomeScreen: BaseScreen {
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
-    public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
+
     
     public func getHudGlucosePillValue() -> [String] {
         let outOfRangeValues = Set(["HIGH", "LOW"])
