@@ -12,9 +12,9 @@ public final class BolusScreen: BaseScreen {
     // MARK: Elements
 
     private var bolusTitleText: XCUIElement { app.navigationBars.staticTexts["Bolus"] }
-    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_CurrentGlucose"]}
-    private var bolusEntryTextField: XCUIElement { app.textFields["textField_Bolus"]}
-    private var carbohydratesTextField: XCUIElement { app.textFields["textField_Carbohydrates"]}
+    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_CurrentGlucose"] }
+    private var bolusEntryTextField: XCUIElement { app.textFields["textField_Bolus"] }
+    private var carbohydratesTextField: XCUIElement { app.textFields["textField_Carbohydrates"] }
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
@@ -22,17 +22,12 @@ public final class BolusScreen: BaseScreen {
     private var passcodeEntry: XCUIElement { springBoard.secureTextFields["Passcode field"] }
     private var keyboardDoneButton: XCUIElement { app.toolbars.firstMatch.buttons["Done"].firstMatch }
     
-   
-    // Warnings
-    private var glucoseEntryOutOfRangeWarning: XCUIElement { app.staticTexts["text_guardrailWarning"] }
-    
-    
     // MARK: Actions
     
     public var getBolusActionButtonLabel: String { bolusActionButton.getLableSafe() }
     
     public func tapCancelBolusButton() { bolusCancelButton.safeTap() }
-    public func tapCurrentGlucoseEntryTextField() {currentGlucoseEntryTextField.safeTap()}
+    public func tapCurrentGlucoseEntryTextField() { currentGlucoseEntryTextField.safeTap() }
     public func tapBolusEntryTextField() { bolusEntryTextField.safeTap() }
     public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
     public func getBolusFieldValue() -> String { bolusEntryTextField.getValueSafe() }
@@ -57,12 +52,11 @@ public final class BolusScreen: BaseScreen {
     }
     
     public func setBolusEntryTextField(value: String) { bolusEntryTextField.typeText(value) }
-    public func setCurrentGlucoseEntryTextField(value: String) { currentGlucoseEntryTextField.typeText(value)}
+    public func setCurrentGlucoseEntryTextField(value: String) { currentGlucoseEntryTextField.typeText(value) }
     public func tapKeyboardDoneButton() { keyboardDoneButton.safeTap() }
     
     // MARK: Verifications
     
     public var bolusTitleExists: Bool { bolusTitleText.safeExists }
     public var simpleBolusCalculatorTitleExists: Bool { simpleBolusCalculatorTitle.safeExists }
-    public var glucoseEntryOutOfRangeWarningExists: Bool { glucoseEntryOutOfRangeWarning.safeExists }
 }
