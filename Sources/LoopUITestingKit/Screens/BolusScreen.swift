@@ -12,8 +12,9 @@ public final class BolusScreen: BaseScreen {
     // MARK: Elements
 
     private var bolusTitleText: XCUIElement { app.navigationBars.staticTexts["Bolus"] }
-    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_currentGlucose"]}
-    private var bolusEntryTextField: XCUIElement { app.textFields["textField_bolus"]}
+    private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_CurrentGlucose"]}
+    private var bolusEntryTextField: XCUIElement { app.textFields["textField_Bolus"]}
+    private var carbohydratesTextField: XCUIElement { app.textFields["textField_Carbohydrates"]}
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
