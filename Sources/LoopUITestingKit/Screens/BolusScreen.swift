@@ -22,11 +22,6 @@ public final class BolusScreen: BaseScreen {
     private var passcodeEntry: XCUIElement { springBoard.secureTextFields["Passcode field"] }
     private var keyboardDoneButton: XCUIElement { app.toolbars.firstMatch.buttons["Done"].firstMatch }
     
-   
-    // Warnings
-    private var glucoseEntryOutOfRangeWarning: XCUIElement { app.staticTexts["text_guardrailWarning"] }
-    
-    
     // MARK: Actions
     
     public var getBolusActionButtonLabel: String { bolusActionButton.getLableSafe() }
@@ -64,5 +59,4 @@ public final class BolusScreen: BaseScreen {
     
     public var bolusTitleExists: Bool { bolusTitleText.safeExists }
     public var simpleBolusCalculatorTitleExists: Bool { simpleBolusCalculatorTitle.safeExists }
-    public var glucoseEntryOutOfRangeWarningExists: Bool { glucoseEntryOutOfRangeWarning.safeExists }
 }
