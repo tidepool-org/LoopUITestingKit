@@ -39,6 +39,7 @@ public final class CarbsEntryScreen: BaseScreen {
     
     public func setCarbsConsumedTextField(carbsAmount: String) {
         _ = carbsConsumedTextField.safeExists
+        carbsConsumedTextField.doubleTap()
         carbsConsumedTextField.typeText(carbsAmount)
     }
     
@@ -84,15 +85,49 @@ public final class CarbsEntryScreen: BaseScreen {
         return foodTypeNotDisplayed
     }
     
+    public func getConsumeDateTime() -> Date {
+        let pickerWheels = app.pickerWheels
+        let todayFormatter =  DateFormatter()
+        todayFormatter.dateFormat = "E, MMM dd"
+        todayFormatter.locale = Locale(identifier: "en_US")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy E, MMM dd h:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US")
+
+        if pickerWheels.count != 4 { consumeTimeText.safeTap() }
+        
+        let pickerWheelDay = pickerWheels.element(boundBy: 0).getValueSafe()
+        let day = switch pickerWheelDay {
+        case "Today": todayFormatter.string(from: Date.now)
+        default: pickerWheelDay
+        }
+        let time = "\(pickerWheels.element(boundBy: 1).getValueSafe().components(separatedBy: " ")[0]):" +
+            "\(pickerWheels.element(boundBy: 2).getValueSafe().components(separatedBy: " ")[0])"
+        let year = Calendar.current.dateComponents([.year], from: Date()).year ?? 1970
+        
+        return dateFormatter.date(from: "\(year) \(day) \(time) \(pickerWheels.element(boundBy: 3).getValueSafe())")!
+    }
+    
     public func setConsumedTime(day: String? = nil, hours: String? = nil, minutes: String? = nil, amPm: String) {
         let pickerWheels = app.pickerWheels
         if pickerWheels.count != 4 { consumeTimeText.safeTap() }
         
-        if let day = day { pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day) }
-        if let hours = hours { pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: hours) }
-        if let minutes = minutes { pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: minutes) }
         pickerWheels.element(boundBy: 3).adjust(toPickerWheelValue: amPm)
+        if let minutes = minutes { pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: minutes) }
+        if let hours = hours { pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: hours) }
+        if let day = day { pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day) }
         consumeTimeText.safeTap()
+    }
+    
+    public func swipeDayPickerWheel(swipeDirection: SwipeDirection) {
+        let pickerWheels = app.pickerWheels
+        if pickerWheels.count != 4 { consumeTimeText.safeTap() }
+        
+        switch swipeDirection {
+        case .down: pickerWheels.element(boundBy: 0).swipeDown()
+        case .up: pickerWheels.element(boundBy: 0).swipeUp()
+        default: XCTFail("Only 'up' and 'down' swipe directions are supported for pickerWheel.")
+        }
     }
     
     public func setAbsorbtionTime(hours: String? = nil, minutes: String? = nil) {

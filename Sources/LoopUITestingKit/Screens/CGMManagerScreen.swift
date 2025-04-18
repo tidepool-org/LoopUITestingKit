@@ -29,7 +29,7 @@ public final class CGMManagerScreen: BaseScreen {
     private var measurementFrequencyCell: XCUIElement { app.cells["cell_MeasurementFrequency"] }
     private var glucoseNoiseCell: XCUIElement { app.cells["cell_GlucoseNoise"] }
     private var backfillGlucoseCell: XCUIElement { app.cells["cell_BackfillGlucose"].firstMatch }
-    private var warningThresholdCell: XCUIElement { app.cells["cell_WarningThreshold"] }
+    private var warningThresholdCell: XCUIElement { app.cells["cell_WarningThreshold"].firstMatch }
     private var criticalThresholdCell: XCUIElement { app.cells["cell_CriticalThreshold"] }
     private var cgmUpperLimitCell: XCUIElement { app.cells["cell_CgmUpperLimit"].firstMatch }
     private var cgmLowerLimitCell: XCUIElement { app.cells["cell_CgmLowerLimit"] }
@@ -70,7 +70,7 @@ public final class CGMManagerScreen: BaseScreen {
     public func tapTrendCell() { trendCell.safeTap() }
     public func tapIssueAlertsCell() { issueAlertsCell.safeTap() }
     public func tapPercentCompletedCell() { percentCompletedCell.safeTap() }
-    public func setMeasurementFrequency(frequency: MeasurementFrequency) { app.buttons[frequency.rawValue].safeTap() }
+    public func setMeasurementFrequency(frequency: MeasurementFrequency) { app.staticTexts[frequency.rawValue].safeTap() }
     
     public func setTimeValue(hours: String, minutes: String) {
         _ = pickerWheels.firstMatch.safeExists
