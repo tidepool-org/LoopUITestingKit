@@ -9,6 +9,12 @@ import XCTest
 
 public final class BolusScreen: BaseScreen {
     
+    public enum fieldName {
+        case bolus
+        case currentGlucose
+        case carbohydrates
+    }
+    
     // MARK: Elements
 
     private var bolusTitleText: XCUIElement { app.navigationBars.staticTexts["Bolus"] }
@@ -24,35 +30,63 @@ public final class BolusScreen: BaseScreen {
     
     // MARK: Actions
     
-    public var getBolusActionButtonLabel: String { bolusActionButton.getLableSafe() }
+    public func tapTextField(fieldName: fieldName) {
+        switch fieldName {
+        case .bolus:
+            bolusEntryTextField.safeTap()
+        case .currentGlucose:
+            currentGlucoseEntryTextField.safeTap()
+        case .carbohydrates:
+            carbohydratesTextField.safeTap()
+        }
+    }
+    
+    public func getTextFieldValue(fieldName: fieldName) -> String {
+        switch fieldName {
+        case .bolus:
+            return bolusEntryTextField.getValueSafe()
+        case .currentGlucose:
+            return currentGlucoseEntryTextField.getValueSafe()
+        case .carbohydrates:
+            return carbohydratesTextField.getValueSafe()
+        }
+    }
+    
+    public func clearTextField(fieldName: fieldName) {
+        let currentTextLength: Int
+        switch fieldName {
+        case .bolus:
+            currentTextLength = bolusEntryTextField.getValueSafe().count
+            bolusEntryTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
+        case .currentGlucose:
+            currentTextLength = currentGlucoseEntryTextField.getValueSafe().count
+            currentGlucoseEntryTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
+        case .carbohydrates:
+            currentTextLength = carbohydratesTextField.getValueSafe().count
+            carbohydratesTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
+        }
+    }
+    
+    public func setTextField(fieldName: fieldName, value: String) {
+        switch fieldName {
+        case .bolus:
+            bolusEntryTextField.typeText(value)
+        case .currentGlucose:
+            currentGlucoseEntryTextField.typeText(value)
+        case .carbohydrates:
+            carbohydratesTextField.typeText(value)
+        }
+    }
     
     public func tapCancelBolusButton() { bolusCancelButton.safeTap() }
-    public func tapCurrentGlucoseEntryTextField() {currentGlucoseEntryTextField.safeTap()}
-    public func tapBolusEntryTextField() { bolusEntryTextField.safeTap() }
     public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
-    public func getBolusFieldValue() -> String { bolusEntryTextField.getValueSafe() }
-    public func getCurrentGlucoseFieldValue() -> String { currentGlucoseEntryTextField.getValueSafe() }
-    
-    public func clearCurrentGlucoseEntryTextField() {
-        let currentTextLength = currentGlucoseEntryTextField.getValueSafe().count
-        
-        currentGlucoseEntryTextField
-            .typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
-    }
-    public func clearBolusEntryTextField() {
-        let currentTextLength = bolusEntryTextField.getValueSafe().count
-        
-        bolusEntryTextField
-            .typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
-    }
+    public var getBolusActionButtonLabel: String { bolusActionButton.getLableSafe() }
     
     public func setPasscode() {
         passcodeEntry.safeTap()
         passcodeEntry.typeText("1\n")
     }
     
-    public func setBolusEntryTextField(value: String) { bolusEntryTextField.typeText(value) }
-    public func setCurrentGlucoseEntryTextField(value: String) { currentGlucoseEntryTextField.typeText(value)}
     public func tapKeyboardDoneButton() { keyboardDoneButton.safeTap() }
     
     // MARK: Verifications
