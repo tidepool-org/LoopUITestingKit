@@ -10,9 +10,10 @@ import XCTest
 public final class BolusScreen: BaseScreen {
     
     public enum fieldName {
-        case bolus
         case currentGlucose
         case carbohydrates
+        case recommendedBolus
+        case bolus
     }
     
     // MARK: Elements
@@ -21,6 +22,7 @@ public final class BolusScreen: BaseScreen {
     private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_CurrentGlucose"]}
     private var bolusEntryTextField: XCUIElement { app.textFields["textField_Bolus"]}
     private var carbohydratesTextField: XCUIElement { app.textFields["textField_Carbohydrates"]}
+    private var recommendedBolusStaticText: XCUIElement { app.staticTexts["staticText_RecommendedBolus"]}
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
@@ -32,49 +34,58 @@ public final class BolusScreen: BaseScreen {
     
     public func tapTextField(fieldName: fieldName) {
         switch fieldName {
-        case .bolus:
-            bolusEntryTextField.safeTap()
         case .currentGlucose:
             currentGlucoseEntryTextField.safeTap()
         case .carbohydrates:
             carbohydratesTextField.safeTap()
+        case .recommendedBolus:
+            recommendedBolusStaticText.safeTap()
+        case .bolus:
+            bolusEntryTextField.safeTap()
         }
     }
     
-    public func getTextFieldValue(fieldName: fieldName) -> String {
+    public func getTextField(fieldName: fieldName) -> String {
         switch fieldName {
-        case .bolus:
-            return bolusEntryTextField.getValueSafe()
         case .currentGlucose:
             return currentGlucoseEntryTextField.getValueSafe()
         case .carbohydrates:
             return carbohydratesTextField.getValueSafe()
+        case .recommendedBolus:
+            return recommendedBolusStaticText.getValueSafe()
+        case .bolus:
+            return bolusEntryTextField.getValueSafe()
         }
     }
     
     public func clearTextField(fieldName: fieldName) {
         let currentTextLength: Int
         switch fieldName {
-        case .bolus:
-            currentTextLength = bolusEntryTextField.getValueSafe().count
-            bolusEntryTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
         case .currentGlucose:
             currentTextLength = currentGlucoseEntryTextField.getValueSafe().count
             currentGlucoseEntryTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
         case .carbohydrates:
             currentTextLength = carbohydratesTextField.getValueSafe().count
             carbohydratesTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
+        case .recommendedBolus:
+            XCTFail("Recommended Bolus is not an editable text field. It is a static text")
+        case .bolus:
+            currentTextLength = bolusEntryTextField.getValueSafe().count
+            bolusEntryTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
         }
     }
     
     public func setTextField(fieldName: fieldName, value: String) {
         switch fieldName {
-        case .bolus:
-            bolusEntryTextField.typeText(value)
         case .currentGlucose:
             currentGlucoseEntryTextField.typeText(value)
         case .carbohydrates:
             carbohydratesTextField.typeText(value)
+        case .recommendedBolus:
+            XCTFail("Recommended Bolus is not an editable text field. It is a static text")
+        case .bolus:
+            bolusEntryTextField.typeText(value)
+        
         }
     }
     
