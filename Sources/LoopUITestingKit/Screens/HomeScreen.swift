@@ -38,8 +38,11 @@ public final class HomeScreen: BaseScreen {
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
     private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
-    private var navigateToActiveCarbsDetailsText: XCUIElement { app.staticTexts["chartTitleText_ActiveCarbohydrates"] }
-
+    private var navigateToActiveCarbsDetailsText: XCUIElement {
+        app.descendants(matching: .staticText)
+            .matching(NSPredicate(format: "identifier CONTAINS 'chartTitleText_ActiveCarbs'"))
+            .firstMatch
+    }
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
@@ -52,6 +55,10 @@ public final class HomeScreen: BaseScreen {
     public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
     public var getPercentCompletedProgressbarState: String { percentCompletedProgressBar.identifier.components(separatedBy: "_")[2] }
     public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
+    public var getActiveCarbsValue: String {
+        _ = navigateToActiveCarbsDetailsText.safeExists
+        return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
+    }
     
 
 
@@ -89,6 +96,7 @@ public final class HomeScreen: BaseScreen {
     
     // MARK: Verifications
     
+    public var carbsTabButtonisHittable: Bool { carbsTabButton.isHittableSafe }
     public var bolusProgressTextExists: Bool { bolusProgressText.safeExists }
     public var tapToStopTextExists: Bool { tapToStopText.safeExists }
     public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }

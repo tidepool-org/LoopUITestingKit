@@ -18,7 +18,7 @@ public final class ActiveCarbsScreen: BaseScreen {
     // MARK: Actions
     
     public func getCarbEntryCellValues(cellIndex: Int) -> [String: String] {
-        let cellValuesKeys = ["StartTime", "CarbsAbsorbed", "TimeOfAbsorbtion", "CarbsAmountType"]
+        let cellValuesKeys = ["ConsumeTime", "CarbsAbsorbed", "TimeOfAbsorbtion", "CarbsAmountType"]
         var cellValuesMap: [String: String] = [:]
         
         for (valueIndex, cellValuesKey) in cellValuesKeys.enumerated() {
@@ -26,4 +26,6 @@ public final class ActiveCarbsScreen: BaseScreen {
         }
         return cellValuesMap
     }
+    
+    public func tapCarbEntryCell(cellIndex: Int) { carbEntryCells.element(boundBy: cellIndex).safeTap() }
 }
