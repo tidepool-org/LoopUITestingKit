@@ -43,6 +43,10 @@ extension XCUIElement {
     var safeExists: Bool {
         waitForExistence(timeout: Double(5))
     }
+    
+    var isHittableSafe: Bool {
+        safeExists && isHittable
+    }
 
     func safe(action: () -> Void) {
         if safeExists {
@@ -67,21 +71,60 @@ extension XCUIElement {
     
     func getValueSafe() -> String {
         if !safeExists {
-            XCTFail("Element \(self) does not exist!")
+            XCTFail(
+                """
+                Element \(self) does not exist!\n
+                =======================================================================================================
+                App screen source:
+                =======================================================================================================
+                \(debugDescription)
+                
+                =======================================================================================================
+                Springboard screen source:
+                =======================================================================================================
+                \(XCUIApplication(bundleIdentifier:"com.apple.springboard").debugDescription)
+                """
+            )
         }
         return value as! String
     }
     
     func getLableSafe() -> String {
         if !safeExists {
-            XCTFail("Element \(self) does not exist!")
+            XCTFail(
+                """
+                Element \(self) does not exist!\n
+                =======================================================================================================
+                App screen source:
+                =======================================================================================================
+                \(debugDescription)
+                
+                =======================================================================================================
+                Springboard screen source:
+                =======================================================================================================
+                \(XCUIApplication(bundleIdentifier:"com.apple.springboard").debugDescription)
+                """
+            )
         }
         return label
     }
     
     func safeIsEnabled() -> Bool {
         if !safeExists {
-            XCTFail("Element \(self) does not exist!")
+            XCTFail(
+                """
+                Element \(self) does not exist!\n
+                =======================================================================================================
+                App screen source:
+                =======================================================================================================
+                \(debugDescription)
+                
+                =======================================================================================================
+                Springboard screen source:
+                =======================================================================================================
+                \(XCUIApplication(bundleIdentifier:"com.apple.springboard").debugDescription)
+                """
+            )
         }
         return isEnabled
     }

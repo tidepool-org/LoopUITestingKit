@@ -105,8 +105,10 @@ public final class OnboardingScreen: BaseScreen {
     }
     
     public func dontAllowHelthKitAuthorization() {
-        alertDontAllowButton.safeTap()
-        okAlertButton.safeTap()
+        if alertDontAllowButton.waitForExistence(timeout: longWait) {
+            alertDontAllowButton.tap()
+            okAlertButton.safeTap()
+        }
     }
     
     // MARK: Verifications
