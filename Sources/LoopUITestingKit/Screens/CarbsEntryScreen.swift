@@ -22,6 +22,8 @@ public final class CarbsEntryScreen: BaseScreen {
     private var increaseConsumeTimeButton: XCUIElement { app.buttons["button_TimeIncrement"] }
     private var absorbtionTimeText: XCUIElement { app.staticTexts["text_AbsorbtionTimeValue"] }
     private var foodTypeTextField: XCUIElement { app.textFields["textField_FoodType"] }
+	private var mealBolusTitleText: XCUIElement { app.navigationBars.staticTexts["Meal Bolus"] }
+    private var tapToStopActionButton: XCUIElement { app.buttons["text_TapToStop"] }
     
     // MARK: Actions
     
@@ -59,6 +61,7 @@ public final class CarbsEntryScreen: BaseScreen {
             app.staticTexts["🍽"].safeTap()
         }
     }
+    public func tapTapToStopActionButton() { tapToStopActionButton.safeTap() }
     
     public func navigateInFoodsCollection(direction: SwipeDirection) {
         switch direction {
@@ -144,4 +147,5 @@ public final class CarbsEntryScreen: BaseScreen {
     public var simpleMealCalculatorExists: Bool { simpleMealCalculatorTitleText.safeExists }
     public var carbEntryScreenExists: Bool { carbEntryTitleText.safeExists }
     public var foodTypeTextFieldExists: Bool { foodTypeTextField.safeExists }
+    public var mealBolusScreenExists: Bool { mealBolusTitleText.safeExists }
 }

@@ -49,6 +49,9 @@ public final class HomeScreen: BaseScreen {
     }
     private var bolusProgressText: XCUIElement { app.staticTexts["text_BolusingProgress"] }
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
+    private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
+    private var insulinSuspendedText: XCUIElement { app.staticTexts["text_InsulinSuspended"] }
+    private var insulinTapToResumeText: XCUIElement { app.staticTexts["text_InsulinTapToResume"] }
     
     // MARK: Actions
     
@@ -59,8 +62,6 @@ public final class HomeScreen: BaseScreen {
         _ = navigateToActiveCarbsDetailsText.safeExists
         return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
     }
-    
-
 
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
     public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe() }
@@ -76,8 +77,9 @@ public final class HomeScreen: BaseScreen {
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
+    public func tapTapToStop() { tapToStopText.safeTap() }
+    public func tapInsulinTapToResumeCell() { insulinTapToResumeText.safeTap() }
 
-    
     public func getHudGlucosePillValue() -> [String] {
         let outOfRangeValues = Set(["HIGH", "LOW"])
         var cgmValues = hudGlucosePill.getValueSafe().components(separatedBy: ", ")
@@ -103,6 +105,12 @@ public final class HomeScreen: BaseScreen {
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
     public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }
     public var closedLoopOnAlertTitleExists: Bool { closedLoopOnAlertTitle.safeExists }
+    public var bolusCanceledTextExists: Bool { bolusCanceledText.safeExists }
+    public var bolusCanceledTextNotExists: Bool { bolusCanceledText.waitForNonExistence(timeout: 11) }
+    public var insulinTapToResumeTextExists: Bool { insulinTapToResumeText.safeExists }
+    public var insulinTapToResumeTextNotExists: Bool { insulinTapToResumeText.waitForNonExistence(timeout: 11) }
+    public var insulinSuspendedTextExists: Bool { insulinSuspendedText.safeExists }
+    public var insulinSuspendedTextNotExists: Bool { insulinSuspendedText.waitForNonExistence(timeout: 11) }
     public var navigationToGlucoseDetailsIsDisabled: Bool {
         navigateToGlucoseDetailsText.safeTap()
         let isDisabled = navigateToGlucoseDetailsText.safeExists
