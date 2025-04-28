@@ -58,6 +58,7 @@ public final class HomeScreen: BaseScreen {
     }
     private var bolusProgressText: XCUIElement { app.staticTexts["text_BolusingProgress"] }
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
+    private var noRecentGlucoseText: XCUIElement { app.staticTexts["text_NoRecentGlucose"] }
     private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
     private var insulinSuspendedText: XCUIElement { app.staticTexts["text_InsulinSuspended"] }
     private var insulinTapToResumeText: XCUIElement { app.staticTexts["text_InsulinTapToResume"] }
@@ -75,7 +76,7 @@ public final class HomeScreen: BaseScreen {
     public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
     public var getActiveCarbsValue: String {
         _ = navigateToActiveCarbsDetailsText.safeExists
-        return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
+        return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2].replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
     }
     public var getActiveInsulinXAxisCount: Int {
         _ = navigateToActiveInsulinDetailsText.safeExists
@@ -159,8 +160,9 @@ public final class HomeScreen: BaseScreen {
         if !isDisabled { NavigationBar(app: app).tapBackButton() }
         return isDisabled
     }
-    
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
+    }
+    public func noRecentGlucoseTextExists(passAfter: Int, failAfter: Int, testInfo: XCTestCase) -> Bool { app.waitForExpectedState(expectedState: { self.noRecentGlucoseText.exists }, passAfterSeconds: passAfter, failAfterSeconds: failAfter, testInfo: testInfo)
     }
 }

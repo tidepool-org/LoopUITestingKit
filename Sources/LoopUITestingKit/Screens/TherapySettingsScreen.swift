@@ -219,6 +219,7 @@ public final class TherapySettingsScreen: BaseScreen {
     public func tapRapidActingChildren() { rapidActingChildrenButton.safeTap() }
     public func tapGlucoseSafetyLimitText() { glucoseSafetyLimitText.safeTap() }
     public func tapBasalRatesText() { basalRatesText.safeTap() }
+    public func tapGlucoseSafetyLimitValueText() { glucoseSafetyLimitValueText.safeTap() }
     
     public func tapSaveSettingsButton() {
         app.swipeToElement(element: saveSettingsButton, swipeDirection: .up, swipeVelocity: .fast)
@@ -293,7 +294,8 @@ public final class TherapySettingsScreen: BaseScreen {
     public var workoutRangeAlertTitleTextExists: Bool { workoutRangeAlertTitleText.safeExists }
     public var carbRatiosAlertTitleTextExists: Bool { carbRatiosAlertTitleText.safeExists }
     public var insulinSensitivitiesAlertTitleTextExists: Bool { insulinSensitivitiesAlertTitleText.safeExists }
-        
+    public var glucoseSafetyLimitValueTextExists: Bool { glucoseSafetyLimitValueText.safeExists }
+    
     public var removeScheduleItemButtonExists: Bool {
         scheduleItemText.matching(NSPredicate(format: "label == '－'")).firstMatch.safeExists
     }

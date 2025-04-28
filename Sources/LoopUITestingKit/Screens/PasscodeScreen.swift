@@ -10,7 +10,7 @@ import XCTest
 public final class PasscodeScreen: BaseScreen {
     
     // MARK: Elements
-    
+
     private var passcodeEntry: XCUIElement { springBoard.secureTextFields["Passcode field"] }
 
     // MARK: Actions
