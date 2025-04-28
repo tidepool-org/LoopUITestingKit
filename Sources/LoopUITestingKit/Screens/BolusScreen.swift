@@ -15,6 +15,7 @@ public final class BolusScreen: BaseScreen {
     private var currentGlucoseEntryTextField: XCUIElement { app.textFields["textField_CurrentGlucose"] }
     private var bolusEntryTextField: XCUIElement { app.textFields["textField_Bolus"] }
     private var carbohydratesTextField: XCUIElement { app.textFields["textField_Carbohydrates"] }
+    private var recommendedBolusStaticText: XCUIElement { app.staticTexts["staticText_RecommendedBolus"] }
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
@@ -25,29 +26,28 @@ public final class BolusScreen: BaseScreen {
     
     // MARK: Actions
     
+    public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
+    public func tapCancelBolusButton() { bolusCancelButton.safeTap() }
+    public func tapCurrentGlucoseTextField() { currentGlucoseEntryTextField.safeTap() }
+    public func tapCarbohydratesTextField() { carbohydratesTextField.safeTap() }
+    public func tapBolusTextField() { bolusEntryTextField.safeTap() }
+    public func tapKeyboardDoneButton() { keyboardDoneButton.safeTap() }
+    
+    public var getCurrentGlucoseTextFieldValue: String { currentGlucoseEntryTextField.getValueSafe() }
+    public var getCarbohydratesTextFieldValue: String { carbohydratesTextField.getValueSafe() }
+    public var getRecommendedBolusStaticTextValue: String { recommendedBolusStaticText.getLableSafe() }
+    public var getBolusTextFieldValue: String { bolusEntryTextField.getValueSafe() }
     public var getBolusActionButtonLabel: String { bolusActionButton.getLableSafe() }
     public var getActiveCarbsText: String { activeCarbsText.getLableSafe() }
     
-    public func tapCancelBolusButton() { bolusCancelButton.safeTap() }
-    public func tapCurrentGlucoseEntryTextField() { currentGlucoseEntryTextField.safeTap() }
-    public func tapBolusEntryTextField() { bolusEntryTextField.safeTap() }
-    public func tapBolusActionButton() { bolusActionButton.safeForceTap() }
-    public func getBolusFieldValue() -> String { bolusEntryTextField.getValueSafe() }
-    public func getCurrentGlucoseFieldValue() -> String { currentGlucoseEntryTextField.getValueSafe() }
+    public func clearCurrentGlucoseTextFieldValue() { currentGlucoseEntryTextField.clearTextField() }
+    public func clearCarbohydratesTextFieldValue() { carbohydratesTextField.clearTextField() }
+    public func clearBolusTextFieldValue() { bolusEntryTextField.clearTextField() }
     
-    public func clearCurrentGlucoseEntryTextField() {
-        let currentTextLength = currentGlucoseEntryTextField.getValueSafe().count
-        
-        currentGlucoseEntryTextField
-            .typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
-    }
-    public func clearBolusEntryTextField() {
-        let currentTextLength = bolusEntryTextField.getValueSafe().count
-        
-        bolusEntryTextField
-            .typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentTextLength))
-    }
-    
+    public func setCurrentGlucoseTextFieldValue(_ value: String) { currentGlucoseEntryTextField.typeText(value) }
+    public func setCarbohydratesTextFieldValue(_ value: String) { carbohydratesTextField.typeText(value) }
+    public func setBolusTextFieldValue(_ value: String) { bolusEntryTextField.typeText(value) }
+
     public func setPasscode() {
         passcodeEntry.safeTap()
         passcodeEntry.typeText("1\n")
@@ -57,11 +57,7 @@ public final class BolusScreen: BaseScreen {
         passcodeEntry.safeTap()
         passcodeEntry.typeText("\n")
     }
-    
-    public func setBolusEntryTextField(value: String) { bolusEntryTextField.typeText(value) }
-    public func setCurrentGlucoseEntryTextField(value: String) { currentGlucoseEntryTextField.typeText(value) }
-    public func tapKeyboardDoneButton() { keyboardDoneButton.safeTap() }
-    
+
     // MARK: Verifications
     
     public var bolusTitleExists: Bool { bolusTitleText.safeExists }

@@ -140,6 +140,11 @@ extension XCUIElement {
             }
         }
     }
+    
+    func clearTextField() {
+        let thisTextLength = self.getValueSafe().count
+        self.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: thisTextLength))
+    }
 }
 
 extension XCUIApplication {
