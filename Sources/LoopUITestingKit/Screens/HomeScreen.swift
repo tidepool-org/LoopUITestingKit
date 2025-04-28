@@ -135,6 +135,7 @@ public final class HomeScreen: BaseScreen {
     public var bolusProgressTextExists: Bool { bolusProgressText.safeExists }
     public var bolusProgressTextNotExists: Bool { bolusProgressText.waitForNonExistence(timeout: 120) }
     public var tapToStopTextExists: Bool { tapToStopText.safeExists }
+    public var noRecentGlucoseTextExists: Bool { noRecentGlucoseText.safeExists }
     public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }
     public var hudStatusClosedLoopNotExists: Bool { hudStatusClosedLoop.waitForNonExistence(timeout: 5) }
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
