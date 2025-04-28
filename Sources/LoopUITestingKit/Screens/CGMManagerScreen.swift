@@ -30,7 +30,10 @@ public final class CGMManagerScreen: BaseScreen {
     private var glucoseNoiseCell: XCUIElement { app.cells["cell_GlucoseNoise"] }
     private var backfillGlucoseCell: XCUIElement { app.cells["cell_BackfillGlucose"].firstMatch }
     private var warningThresholdCell: XCUIElement { app.cells["cell_WarningThreshold"].firstMatch }
-    private var criticalThresholdCell: XCUIElement { app.cells["cell_CriticalThreshold"] }
+    private var criticalThresholdCell: XCUIElement {
+        app.swipeUp(velocity: .slow) // to avoid situation when screen automatically swipe and wrong element is selected
+        return app.cells["cell_CriticalThreshold"].firstMatch
+    }
     private var cgmUpperLimitCell: XCUIElement { app.cells["cell_CgmUpperLimit"].firstMatch }
     private var cgmLowerLimitCell: XCUIElement { app.cells["cell_CgmLowerLimit"] }
     private var highGlucoseThresholdCell: XCUIElement { app.cells["cell_HighGlucoseThreshold"] }
