@@ -43,6 +43,11 @@ public final class HomeScreen: BaseScreen {
             .matching(NSPredicate(format: "identifier CONTAINS 'chartTitleText_ActiveCarbs'"))
             .firstMatch
     }
+    private var navigateToActiveInsulinDetailsText: XCUIElement {
+        app.descendants(matching: .staticText)
+            .matching(NSPredicate(format: "identifier CONTAINS 'chartTitleText_ActiveInsulin'"))
+            .firstMatch
+    }
     private var percentCompletedProgressBar: XCUIElement {
         app.progressIndicators.matching(NSPredicate(format: "identifier CONTAINS 'progressBar_State_'"))
             .firstMatch
@@ -52,6 +57,11 @@ public final class HomeScreen: BaseScreen {
     private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
     private var insulinSuspendedText: XCUIElement { app.staticTexts["text_InsulinSuspended"] }
     private var insulinTapToResumeText: XCUIElement { app.staticTexts["text_InsulinTapToResume"] }
+    private var workoutPresetCellTitle: XCUIElement { app.staticTexts["text_WorkoutPresetCellTitle"] }
+    private var preMealPresetCellTitle: XCUIElement { app.staticTexts["text_PreMealPresetCellTitle"] }
+    private var presetActiveOnText: XCUIElement { app.staticTexts["text_PresetActiveOn"] }
+    private var presetsToolbarImage: XCUIElement { app.images["image_Presets"] }
+    private var presetsSelectedToolbarImage: XCUIElement { app.images["image_PresetsSelected"] }
     
     // MARK: Actions
     
@@ -62,6 +72,7 @@ public final class HomeScreen: BaseScreen {
         _ = navigateToActiveCarbsDetailsText.safeExists
         return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
     }
+    public var getPresetActiveOnText: String { presetActiveOnText.getLableSafe() }
 
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
     public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe() }
@@ -77,8 +88,11 @@ public final class HomeScreen: BaseScreen {
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
+    public func tapNavigateToActiveInsulinDetailsText() { navigateToActiveInsulinDetailsText.safeTap() }
     public func tapTapToStop() { tapToStopText.safeTap() }
     public func tapInsulinTapToResumeCell() { insulinTapToResumeText.safeTap() }
+    public func tapWorkoutPresetCellTitle() { workoutPresetCellTitle.safeTap() }
+    public func tapPreMealPresetCellTitle() { preMealPresetCellTitle.safeTap() }
 
     public func getHudGlucosePillValue() -> [String] {
         let outOfRangeValues = Set(["HIGH", "LOW"])
@@ -111,6 +125,12 @@ public final class HomeScreen: BaseScreen {
     public var insulinTapToResumeTextNotExists: Bool { insulinTapToResumeText.waitForNonExistence(timeout: 11) }
     public var insulinSuspendedTextExists: Bool { insulinSuspendedText.safeExists }
     public var insulinSuspendedTextNotExists: Bool { insulinSuspendedText.waitForNonExistence(timeout: 11) }
+    public var workoutPresetCellTitleExists: Bool { workoutPresetCellTitle.safeExists }
+    public var workoutPresetCellTitleNotExists: Bool { workoutPresetCellTitle.waitForNonExistence(timeout: 5) }
+    public var preMealPresetCellTitleExists: Bool { preMealPresetCellTitle.safeExists }
+    public var preMealPresetCellTitleNotExists: Bool { preMealPresetCellTitle.waitForNonExistence(timeout: 5) }
+    public var presetsToolbarImageExists: Bool { presetsToolbarImage.safeExists }
+    public var presetsSelectedToolbarImageExists: Bool { presetsSelectedToolbarImage.safeExists }
     public var navigationToGlucoseDetailsIsDisabled: Bool {
         navigateToGlucoseDetailsText.safeTap()
         let isDisabled = navigateToGlucoseDetailsText.safeExists

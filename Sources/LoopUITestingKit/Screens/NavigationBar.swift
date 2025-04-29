@@ -11,9 +11,18 @@ public final class NavigationBar: BaseScreen {
     
     // MARK: Elements
     
+    private var therapySettingsBackButton: XCUIElement { app.buttons["Therapy Settings"] }
     private var backButton: XCUIElement { app.navigationBars.buttons.element(boundBy: 0) }
     private var saveButton: XCUIElement { app.buttons["button_Save"] }
-    private var doneButton: XCUIElement { app.buttons["button_done"] }
+    private var doneButton: XCUIElement {
+        let doneButtons = app.buttons.matching(NSPredicate(format: "identifier CONTAINS 'button_done'"))
+        
+        for element in doneButtons.allElementsBoundByIndex {
+            if element.isHittable { return element }
+        }
+        
+        return doneButtons.firstMatch
+    }
     
     // MARK: Actions
     
@@ -22,9 +31,12 @@ public final class NavigationBar: BaseScreen {
     public func tapBackButton() { backButton.safeTap() }
     public func tapSaveButton() { saveButton.safeTap() }
     public func tapDoneButton() { doneButton.safeTap() }
+    public func tapTherapySettingsBackButton() { therapySettingsBackButton.safeTap() }
     
     // MARK: Verifications
     
     public var backButtonExists: Bool { backButton.safeExists }
     public var saveButtonExists: Bool { saveButton.safeExists }
+    public var doneButtonExists: Bool { doneButton.safeExists }
+    public var therapySettignsBackButtonIsHittable: Bool { therapySettingsBackButton.isHittableSafe }
 }

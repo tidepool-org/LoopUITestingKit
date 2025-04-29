@@ -109,7 +109,7 @@ extension XCUIElement {
         return label
     }
     
-    func safeIsEnabled() -> Bool {
+    var safeIsEnabled: Bool {
         if !safeExists {
             XCTFail(
                 """
