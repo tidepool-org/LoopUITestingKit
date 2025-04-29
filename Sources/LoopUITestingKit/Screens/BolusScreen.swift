@@ -21,7 +21,6 @@ public final class BolusScreen: BaseScreen {
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }
     private var activeCarbsText: XCUIElement { app.staticTexts["text_ActiveCarbs"] }
     
-    private var passcodeEntry: XCUIElement { springBoard.secureTextFields["Passcode field"] }
     private var keyboardDoneButton: XCUIElement { app.toolbars.firstMatch.buttons["Done"].firstMatch }
     
     // MARK: Actions
@@ -48,19 +47,8 @@ public final class BolusScreen: BaseScreen {
     public func setCarbohydratesTextFieldValue(_ value: String) { carbohydratesTextField.typeText(value) }
     public func setBolusTextFieldValue(_ value: String) { bolusEntryTextField.typeText(value) }
 
-    public func setPasscode() {
-        passcodeEntry.safeTap()
-        passcodeEntry.typeText("1\n")
-    }
-    
-    public func cancelPasscode() {
-        passcodeEntry.safeTap()
-        passcodeEntry.typeText("\n")
-    }
-
     // MARK: Verifications
     
     public var bolusTitleExists: Bool { bolusTitleText.safeExists }
     public var simpleBolusCalculatorTitleExists: Bool { simpleBolusCalculatorTitle.safeExists }
-    public var passcodeEntryExists: Bool { passcodeEntry.safeExists }
 }

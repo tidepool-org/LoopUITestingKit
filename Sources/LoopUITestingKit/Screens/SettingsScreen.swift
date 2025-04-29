@@ -67,7 +67,7 @@ public final class SettingsScreen: BaseScreen {
     // MARK: Verifications
     
     public var isClosedLoopToggleOn: Bool { closedLoopToggle.getValueSafe() == "1" }
-    public var closedLoopToggleEnabled: Bool { closedLoopToggle.safeIsEnabled() }
+    public var closedLoopToggleEnabled: Bool { closedLoopToggle.safeIsEnabled }
     public var alertWarningExists: Bool { alertManagementAlertWarning.safeExists }
     public var alertPermissionsWarningImageExists: Bool { alertPermissionsWarningImage.safeExists }
     public var alertPermissionsNotificationsDisabledExists: Bool { alertPermissionsNotificationsDisabled.safeExists }
