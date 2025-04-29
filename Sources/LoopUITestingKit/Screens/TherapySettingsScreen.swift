@@ -54,6 +54,8 @@ public final class TherapySettingsScreen: BaseScreen {
     private var rapidActingAdultsButton: XCUIElement { app.buttons["item_RapidActingAdults"] }
     private var rapidActingChildrenButton: XCUIElement { app.buttons["item_RapidActingChildren"] }
     private var insulinModelTitleText: XCUIElement { app.staticTexts["text_InsulinModelTitle"] }
+    private var glucoseSafetyLimitText: XCUIElement { app.staticTexts["titleText_GlucoseSafetyLimit"] }
+    private var basalRatesText: XCUIElement { app.staticTexts["titleText_BasalRates"] }
     
     // MARK: Element Queries
     
@@ -215,6 +217,8 @@ public final class TherapySettingsScreen: BaseScreen {
     public func tapMaxBolusItem() { maxBolusItem.safeTap() }
     public func tapRapidActingAdults() { rapidActingAdultsButton.safeTap() }
     public func tapRapidActingChildren() { rapidActingChildrenButton.safeTap() }
+    public func tapGlucoseSafetyLimitText() { glucoseSafetyLimitText.safeTap() }
+    public func tapBasalRatesText() { basalRatesText.safeTap() }
     
     public func tapSaveSettingsButton() {
         app.swipeToElement(element: saveSettingsButton, swipeDirection: .up, swipeVelocity: .fast)
@@ -268,6 +272,7 @@ public final class TherapySettingsScreen: BaseScreen {
     public var infoCircleButtonExists: Bool { infoCircleButton.safeExists }
     public var addButtonExists: Bool { addButton.safeExists }
     public var confirmSaveButtonExists: Bool { confirmSaveButton.safeExists }
+    public var confirmSaveButtonIsEnabled: Bool { confirmSaveButton.safeIsEnabled }
     public var correctionRangeInformationTextExists: Bool { correctionRangeInformationText.safeExists }
     public var preMealPresetInformationTextExists: Bool { preMealPresetInformationText.safeExists }
     public var workoutPresetInformationTextExists: Bool { workoutPresetInformationText.safeExists }
@@ -298,6 +303,7 @@ public final class TherapySettingsScreen: BaseScreen {
     private func getElementsAttributes(_ elementQuery: XCUIElementQuery, _ attribute: String = "label") -> [String] {
         var elementsAttributes: [String] = []
         
+        _ = elementQuery.element(boundBy: 0).safeExists
         for index in 0..<elementQuery.count {
             switch attribute {
             case "label": elementsAttributes.append(elementQuery.element(boundBy: index).label)
