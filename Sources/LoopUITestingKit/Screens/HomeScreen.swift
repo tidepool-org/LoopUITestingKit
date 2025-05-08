@@ -49,6 +49,7 @@ public final class HomeScreen: BaseScreen {
     }
     private var bolusProgressText: XCUIElement { app.staticTexts["text_BolusingProgress"] }
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
+    private var noRecentGlucoseText: XCUIElement { app.staticTexts["text_NoRecentGlucose"] }
     private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
     private var insulinSuspendedText: XCUIElement { app.staticTexts["text_InsulinSuspended"] }
     private var insulinTapToResumeText: XCUIElement { app.staticTexts["text_InsulinTapToResume"] }
@@ -101,6 +102,7 @@ public final class HomeScreen: BaseScreen {
     public var carbsTabButtonisHittable: Bool { carbsTabButton.isHittableSafe }
     public var bolusProgressTextExists: Bool { bolusProgressText.safeExists }
     public var tapToStopTextExists: Bool { tapToStopText.safeExists }
+    public var noRecentGlucoseTextExists: Bool { noRecentGlucoseText.safeExists }
     public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
     public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }
@@ -119,6 +121,7 @@ public final class HomeScreen: BaseScreen {
         return isDisabled
     }
     
+    public func waitForNoRecentGlucoseText(timeout: Double) { _ = noRecentGlucoseText.waitForExistence(timeout: timeout) }
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
     }
