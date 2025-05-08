@@ -61,7 +61,7 @@ public final class HomeScreen: BaseScreen {
     public var getBolusProgressText: String { bolusProgressText.getLableSafe() }
     public var getActiveCarbsValue: String {
         _ = navigateToActiveCarbsDetailsText.safeExists
-        return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
+        return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2].replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
     }
 
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
@@ -120,8 +120,6 @@ public final class HomeScreen: BaseScreen {
         if !isDisabled { NavigationBar(app: app).tapBackButton() }
         return isDisabled
     }
-    
-    public func waitForNoRecentGlucoseText(timeout: Double) { _ = noRecentGlucoseText.waitForExistence(timeout: timeout) }
     public func pumpPillDisplaysValue(value: String) {
         XCTAssertTrue(hudPumpPill.getValueSafe().contains(NSLocalizedString(value, comment: "")))
     }
