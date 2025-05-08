@@ -26,6 +26,7 @@ public final class ActiveCarbsScreen: BaseScreen {
         }
         return cellValuesMap
     }
+    public func getCarbEntryCellCount() -> Int { return carbEntryCells.count }
     
     public func tapCarbEntryCell(cellIndex: Int) { carbEntryCells.element(boundBy: cellIndex).safeTap() }
 }

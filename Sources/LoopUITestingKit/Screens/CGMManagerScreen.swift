@@ -64,7 +64,10 @@ public final class CGMManagerScreen: BaseScreen {
     public func tapMeasurementFrequencyCell() { measurementFrequencyCell.safeTap() }
     public func tapGlucoseNoiseCell() { glucoseNoiseCell.safeTap() }
     public func tapSignalLossCell() { signalLossCell.safeTap() }
-    public func tapBackfillGlucoseCell() { backfillGlucoseCell.safeTap() }
+    public func tapBackfillGlucoseCell() {
+        app.swipeToElement(element: backfillGlucoseCell, swipeDirection: SwipeDirection.up, swipeVelocity: .fast)
+        backfillGlucoseCell.safeTap()
+    }
     public func tapWarningThresholdCell() { warningThresholdCell.safeTap() }
     public func tapCriticalThresholdCell() { criticalThresholdCell.safeTap() }
     public func tapCgmUpperLimitCell() { cgmUpperLimitCell.safeTap() }
