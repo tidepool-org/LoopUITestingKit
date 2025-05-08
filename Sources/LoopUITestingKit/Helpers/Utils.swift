@@ -129,6 +129,26 @@ extension XCUIElement {
         return isEnabled
     }
     
+    func safeIsSeleceted() -> Bool {
+        if !safeExists {
+            XCTFail(
+                """
+                Element \(self) does not exist!\n
+                =======================================================================================================
+                App screen source:
+                =======================================================================================================
+                \(debugDescription)
+                
+                =======================================================================================================
+                Springboard screen source:
+                =======================================================================================================
+                \(XCUIApplication(bundleIdentifier:"com.apple.springboard").debugDescription)
+                """
+            )
+        }
+        return isSelected
+    }
+    
     func safeForceTap() {
         safe {
             if isHittable {

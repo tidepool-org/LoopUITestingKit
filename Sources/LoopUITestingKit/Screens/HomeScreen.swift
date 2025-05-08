@@ -58,7 +58,7 @@ public final class HomeScreen: BaseScreen {
     }
     private var bolusProgressText: XCUIElement { app.staticTexts["text_BolusingProgress"] }
     private var tapToStopText: XCUIElement { app.staticTexts["text_TapToStop"] }
-    private var noRecentGlucoseText: XCUIElement { app.staticTexts["text_NoRecentGlucose"] }
+    public var noRecentGlucoseText: XCUIElement { app.staticTexts["text_NoRecentGlucose"] }  ///////FIX THIS
     private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
     private var insulinSuspendedText: XCUIElement { app.staticTexts["text_InsulinSuspended"] }
     private var insulinTapToResumeText: XCUIElement { app.staticTexts["text_InsulinTapToResume"] }
@@ -135,7 +135,6 @@ public final class HomeScreen: BaseScreen {
     public var bolusProgressTextExists: Bool { bolusProgressText.safeExists }
     public var bolusProgressTextNotExists: Bool { bolusProgressText.waitForNonExistence(timeout: 120) }
     public var tapToStopTextExists: Bool { tapToStopText.safeExists }
-    public var noRecentGlucoseTextExists: Bool { noRecentGlucoseText.safeExists }
     public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }
     public var hudStatusClosedLoopNotExists: Bool { hudStatusClosedLoop.waitForNonExistence(timeout: 5) }
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
