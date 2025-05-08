@@ -129,6 +129,26 @@ extension XCUIElement {
         return isEnabled
     }
     
+    func safeIsSeleceted() -> Bool {
+        if !safeExists {
+            XCTFail(
+                """
+                Element \(self) does not exist!\n
+                =======================================================================================================
+                App screen source:
+                =======================================================================================================
+                \(debugDescription)
+                
+                =======================================================================================================
+                Springboard screen source:
+                =======================================================================================================
+                \(XCUIApplication(bundleIdentifier:"com.apple.springboard").debugDescription)
+                """
+            )
+        }
+        return isSelected
+    }
+    
     func safeForceTap() {
         safe {
             if isHittable {
@@ -189,5 +209,30 @@ extension XCUIApplication {
             }
             maxAttempts -= 1
         }
+    }
+    
+    public func waitForExpectedState(
+        expectedState: @escaping () -> Bool,
+        passAfterSeconds: Int = 0,
+        failAfterSeconds: Int = 5,
+        testInfo: XCTestCase = XCTestCase()
+    ) -> Bool {
+        let expectation = XCTestExpectation(
+            description: "Pass after \(passAfterSeconds)s, fail after \(failAfterSeconds)s or before \(passAfterSeconds) s"
+        )
+        var counter = 0
+        var timer: Timer?
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            counter += 1
+            guard expectedState() else { return }
+            timer?.invalidate()
+            if counter >= passAfterSeconds {
+                expectation.fulfill()
+            }
+        }
+        testInfo.executionTimeAllowance = TimeInterval(failAfterSeconds + 1)
+        let result = XCTWaiter.wait(for: [expectation], timeout: TimeInterval(failAfterSeconds))
+        timer?.invalidate()
+        return result == .completed
     }
 }

@@ -43,6 +43,9 @@ public final class CGMManagerScreen: BaseScreen {
     private var trendCell: XCUIElement { app.cells["cell_Trend"] }
     private var issueAlertsCell: XCUIElement { app.cells["cell_IssueAlerts"].firstMatch }
     private var percentCompletedCell: XCUIElement { app.cells["cell_PercentCompleted"] }
+    private var glucoseLastReadingValueStaticText: XCUIElement {
+        app.staticTexts["staticText_GlucoseLastReadingValue"]
+    }
     
     // MARK: Element Queries
     
@@ -64,7 +67,10 @@ public final class CGMManagerScreen: BaseScreen {
     public func tapMeasurementFrequencyCell() { measurementFrequencyCell.safeTap() }
     public func tapGlucoseNoiseCell() { glucoseNoiseCell.safeTap() }
     public func tapSignalLossCell() { signalLossCell.safeTap() }
-    public func tapBackfillGlucoseCell() { backfillGlucoseCell.safeTap() }
+    public func tapBackfillGlucoseCell() {
+        app.swipeToElement(element: backfillGlucoseCell, swipeDirection: SwipeDirection.up, swipeVelocity: .fast)
+        backfillGlucoseCell.safeTap()
+    }
     public func tapWarningThresholdCell() { warningThresholdCell.safeTap() }
     public func tapCriticalThresholdCell() { criticalThresholdCell.safeTap() }
     public func tapCgmUpperLimitCell() { cgmUpperLimitCell.safeTap() }
@@ -110,4 +116,8 @@ public final class CGMManagerScreen: BaseScreen {
     public func tapAmplitudeCell() { amplitudeCell.safeTap() }
     public func tapPeriodCell() { periodCell.safeTap() }
     public func tapReferenceDateCell() { referenceDateCell.safeTap() }
+    
+    // CGM Simulator Screen
+    
+    public var getGlucoseLastReadingValueStaticText: String { glucoseLastReadingValueStaticText.getLableSafe() }
 }
