@@ -13,9 +13,9 @@ public final class HomeScreen: BaseScreen {
     
     // Navigation bar
     private var settingsTabButton: XCUIElement { app.buttons["statusTableViewControllerSettingsButton"] }
-        private var carbsTabButton: XCUIElement { app.buttons["statusTableViewControllerCarbsButton"] }
-        private var bolusTabButton: XCUIElement { app.buttons["statusTableViewControllerBolusButton"] }
-        private var presetsTabButton: XCUIElement { app.buttons["statusTableViewPresetsButton"] }
+    private var carbsTabButton: XCUIElement { app.buttons["statusTableViewControllerCarbsButton"] }
+    private var bolusTabButton: XCUIElement { app.buttons["statusTableViewControllerBolusButton"] }
+    private var presetsTabButton: XCUIElement { app.buttons["statusTableViewPresetsButton"] }
     
     private var hudStatusClosedLoop: XCUIElement {
         app.descendants(matching: .any).matching(identifier: "loopCompletionHUDLoopStatusClosed").firstMatch
@@ -37,10 +37,19 @@ public final class HomeScreen: BaseScreen {
     private var safetyNotificationsAlertCloseButton: XCUIElement { app.alerts.firstMatch.buttons["Close"] }
     private var alertDismissButton: XCUIElement { app.buttons["Dismiss"] }
     private var springboardKeyboardDoneButton: XCUIElement { springBoard.keyboards.buttons["done"] }
-    private var navigateToGlucoseDetailsText: XCUIElement { app.staticTexts["chartTitleText_Glucose"] }
+    private var navigateToGlucoseDetailsText: XCUIElement {
+        app.descendants(matching: .staticText)
+            .matching(NSPredicate(format: "identifier CONTAINS 'chartTitleText_Glucose'"))
+            .firstMatch
+    }
     private var navigateToActiveCarbsDetailsText: XCUIElement {
         app.descendants(matching: .staticText)
             .matching(NSPredicate(format: "identifier CONTAINS 'chartTitleText_ActiveCarbs'"))
+            .firstMatch
+    }
+    private var navigateToActiveInsulinDetailsText: XCUIElement {
+        app.descendants(matching: .staticText)
+            .matching(NSPredicate(format: "identifier CONTAINS 'chartTitleText_ActiveInsulin'"))
             .firstMatch
     }
     private var percentCompletedProgressBar: XCUIElement {
@@ -52,6 +61,12 @@ public final class HomeScreen: BaseScreen {
     private var bolusCanceledText: XCUIElement { app.staticTexts["text_BolusCanceled"] }
     private var insulinSuspendedText: XCUIElement { app.staticTexts["text_InsulinSuspended"] }
     private var insulinTapToResumeText: XCUIElement { app.staticTexts["text_InsulinTapToResume"] }
+    private var workoutPresetCellTitle: XCUIElement { app.staticTexts["text_WorkoutPresetCellTitle"] }
+    private var preMealPresetCellTitle: XCUIElement { app.staticTexts["text_PreMealPresetCellTitle"] }
+    private var presetActiveOnText: XCUIElement { app.staticTexts["text_PresetActiveOn"] }
+    private var presetsToolbarImage: XCUIElement { app.images["image_Presets"] }
+    private var presetsSelectedToolbarImage: XCUIElement { app.images["image_PresetsSelected"] }
+    private var activeInsulinLastBolusText: XCUIElement { app.staticTexts["text_ActiveInsulinFooter"] }
     
     // MARK: Actions
     
@@ -62,6 +77,20 @@ public final class HomeScreen: BaseScreen {
         _ = navigateToActiveCarbsDetailsText.safeExists
         return navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[2]
     }
+    public var getActiveInsulinXAxisCount: Int {
+        _ = navigateToActiveInsulinDetailsText.safeExists
+        return Int(navigateToActiveInsulinDetailsText.identifier.components(separatedBy: "_")[3]) ?? -1
+    }
+    public var getGlucoseXAxisCount: Int {
+        _ = navigateToGlucoseDetailsText.safeExists
+        return Int(navigateToGlucoseDetailsText.identifier.components(separatedBy: "_")[2]) ?? -1
+    }
+    public var getActiveCarbsXAxisCount: Int {
+        _ = navigateToActiveCarbsDetailsText.safeExists
+        return Int(navigateToActiveCarbsDetailsText.identifier.components(separatedBy: "_")[3]) ?? -1
+    }
+    public var getPresetActiveOnText: String { presetActiveOnText.getLableSafe() }
+    public var getActiveInsulinLastBolusValue: String { activeInsulinLastBolusText.getLableSafe() }
 
     public func getPumpPillValue() -> String { hudPumpPill.getValueSafe() }
     public func getHudGlucosePill() -> String { hudGlucosePill.getValueSafe() }
@@ -77,8 +106,11 @@ public final class HomeScreen: BaseScreen {
     public func tapHudGlucosePill() { hudGlucosePill.safeTap() }
     public func tapPresetsTabButton() { presetsTabButton.safeTap() }
     public func tapNavigateToActiveCarbsDetails() { navigateToActiveCarbsDetailsText.safeTap() }
+    public func tapNavigateToActiveInsulinDetailsText() { navigateToActiveInsulinDetailsText.safeTap() }
     public func tapTapToStop() { tapToStopText.safeTap() }
     public func tapInsulinTapToResumeCell() { insulinTapToResumeText.safeTap() }
+    public func tapWorkoutPresetCellTitle() { workoutPresetCellTitle.safeTap() }
+    public func tapPreMealPresetCellTitle() { preMealPresetCellTitle.safeTap() }
 
     public func getHudGlucosePillValue() -> [String] {
         let outOfRangeValues = Set(["HIGH", "LOW"])
@@ -100,9 +132,12 @@ public final class HomeScreen: BaseScreen {
     
     public var carbsTabButtonisHittable: Bool { carbsTabButton.isHittableSafe }
     public var bolusProgressTextExists: Bool { bolusProgressText.safeExists }
+    public var bolusProgressTextNotExists: Bool { bolusProgressText.waitForNonExistence(timeout: 120) }
     public var tapToStopTextExists: Bool { tapToStopText.safeExists }
     public var hudStatusClosedLoopExists: Bool { hudStatusClosedLoop.waitForExistence(timeout: 120) }
+    public var hudStatusClosedLoopNotExists: Bool { hudStatusClosedLoop.waitForNonExistence(timeout: 5) }
     public var hudStatusOpenLoopExists: Bool { hudStatusOpenLoop.safeExists }
+    public var hudStatusOpenLoopNotExists: Bool { hudStatusOpenLoop.waitForNonExistence(timeout: 5) }
     public var closedLoopOffAlertTitleExists: Bool { closedLoopOffAlertTitle.safeExists }
     public var closedLoopOnAlertTitleExists: Bool { closedLoopOnAlertTitle.safeExists }
     public var bolusCanceledTextExists: Bool { bolusCanceledText.safeExists }
@@ -111,6 +146,12 @@ public final class HomeScreen: BaseScreen {
     public var insulinTapToResumeTextNotExists: Bool { insulinTapToResumeText.waitForNonExistence(timeout: 11) }
     public var insulinSuspendedTextExists: Bool { insulinSuspendedText.safeExists }
     public var insulinSuspendedTextNotExists: Bool { insulinSuspendedText.waitForNonExistence(timeout: 11) }
+    public var workoutPresetCellTitleExists: Bool { workoutPresetCellTitle.safeExists }
+    public var workoutPresetCellTitleNotExists: Bool { workoutPresetCellTitle.waitForNonExistence(timeout: 5) }
+    public var preMealPresetCellTitleExists: Bool { preMealPresetCellTitle.safeExists }
+    public var preMealPresetCellTitleNotExists: Bool { preMealPresetCellTitle.waitForNonExistence(timeout: 5) }
+    public var presetsToolbarImageExists: Bool { presetsToolbarImage.safeExists }
+    public var presetsSelectedToolbarImageExists: Bool { presetsSelectedToolbarImage.safeExists }
     public var navigationToGlucoseDetailsIsDisabled: Bool {
         navigateToGlucoseDetailsText.safeTap()
         let isDisabled = navigateToGlucoseDetailsText.safeExists
