@@ -53,7 +53,7 @@ public class TestHelper {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
 
-        dateFormatter.dateFormat = "MMM dd"
+        dateFormatter.dateFormat = "MMM d"
         let dayString = dateFormatter.string(from: adjustedDate)
         
         dateFormatter.dateFormat = "h"
