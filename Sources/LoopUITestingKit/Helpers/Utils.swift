@@ -190,4 +190,29 @@ extension XCUIApplication {
             maxAttempts -= 1
         }
     }
+    
+    public func waitForExpectedState(
+        expectedState: @escaping () -> Bool,
+        passAfterSeconds: Int = 0,
+        failAfterSeconds: Int = 5,
+        testInfo: XCTestCase
+    ) -> Bool {
+        let expectation = XCTestExpectation(description: "End timer if \(expectedState()) is true")
+        var counter = 0
+        var actualMatch: Bool = false
+        var timer: Timer?
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            counter += 1
+            guard expectedState() else { return }
+            
+            timer?.invalidate()
+            actualMatch = counter >= passAfterSeconds
+            expectation.fulfill()
+        }
+        testInfo.executionTimeAllowance = TimeInterval(failAfterSeconds + 1)
+        _ = XCTWaiter.wait(for: [expectation], timeout: TimeInterval(failAfterSeconds))
+        timer?.invalidate()
+        return actualMatch
+    }
 }
