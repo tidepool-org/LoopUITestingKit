@@ -16,7 +16,7 @@ public final class BolusScreen: BaseScreen {
     private var fingerstickGlucoseTextField: XCUIElement { app.textFields["textField_FingerstickGlucose"] }
     private var bolusEntryTextField: XCUIElement { app.textFields["textField_Bolus"] }
     private var carbohydratesTextField: XCUIElement { app.textFields["textField_Carbohydrates"] }
-    private var recommendedBolusStaticText: XCUIElement { app.staticTexts["staticText_RecommendedBolus"] }
+    private var recommendedBolusStaticText: XCUIElement { app.staticTexts["staticText_RecommendedBolus"].firstMatch }
     private var bolusCancelButton: XCUIElement { app.navigationBars.buttons["Cancel"] }
     private var simpleBolusCalculatorTitle: XCUIElement { app.navigationBars.staticTexts["Simple Bolus Calculator"] }
     private var bolusActionButton: XCUIElement { app.buttons["button_bolusAction"] }

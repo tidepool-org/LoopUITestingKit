@@ -165,7 +165,7 @@ public final class TherapySettingsScreen: BaseScreen {
     }
     
     public func getPickerWheelsValues(attributeValues: [String]) -> [String: String] {
-        let supportedValues = ["MinValue": 1, "MaxValue": 2, "Time": 0]
+        let supportedValues = ["MinValue": 1, "MaxValue": 2, "Time": 0, "WholeNumber": 0, "Decimal": 1]
         var itemValues = [String: String]()
         
         for attributeValue in attributeValues {
