@@ -11,7 +11,7 @@ public final class NavigationBar: BaseScreen {
     
     // MARK: Elements
     
-    private var therapySettingsBackButton: XCUIElement { app.buttons["Therapy Settings"] }
+    private var therapySettingsBackButton: XCUIElement { app.buttons["< Back"] }
     private var backButton: XCUIElement { app.navigationBars.buttons.element(boundBy: 0) }
     private var saveButton: XCUIElement { app.buttons["button_Save"] }
     private var doneButton: XCUIElement {

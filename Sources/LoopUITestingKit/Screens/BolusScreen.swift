@@ -23,7 +23,7 @@ public final class BolusScreen: BaseScreen {
     private var activeCarbsText: XCUIElement { app.staticTexts["text_ActiveCarbs"] }
     private var enterFingerstickGlucoseButton: XCUIElement { app.buttons["button_EnterFingerstickGlucose"] }
     
-    private var keyboardDoneButton: XCUIElement { app.toolbars.firstMatch.buttons["Done"].firstMatch }
+    private var keyboardDoneButton: XCUIElement { app.toolbars.buttons["Done"].firstMatch }
     
     // MARK: Actions
     

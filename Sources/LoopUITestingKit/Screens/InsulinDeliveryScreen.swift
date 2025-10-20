@@ -11,6 +11,23 @@ public final class InsulinDeliveryScreen: BaseScreen {
     
     // MARK: Elements
     
+    private var automatedScheduledBasalEventCells: XCUIElementQuery {
+        app.cells.containing(.image, identifier: "basal-delivery-log")
+    }
+    private var automatedScheduledBasalEventTexts: XCUIElementQuery {
+        automatedScheduledBasalEventCells.staticTexts.matching(
+            NSPredicate(format: "label CONTAINS %@", "Basal: ")
+        )
+    }
+    private var automatedBolusEventCells: XCUIElementQuery {
+        app.cells.containing(.image, identifier: "autobolus-delivery-log")
+    }
+    private var automatedBolusEventTexts: XCUIElementQuery {
+        automatedBolusEventCells.staticTexts.matching(
+            NSPredicate(format: "label CONTAINS %@", "Bolus: ")
+        )
+    }
+    
     private var isnulinDeliveryRows: XCUIElementQuery {
         app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS 'Temp Basal'"))
     }
@@ -39,5 +56,19 @@ public final class InsulinDeliveryScreen: BaseScreen {
         }
         
         return insulinDeliveryArray
+    }
+    // MARK: Verifications
+    
+    public var automatedScheduledBasalEventsExist: Bool {
+        automatedScheduledBasalEventCells.element(boundBy: 0).safeExists
+    }
+    public var autobolusEventsExist: Bool {
+        automatedBolusEventCells.element(boundBy: 0).safeExists
+    }
+    public var automatedScheduledBasalValuesExist: Bool {
+        automatedScheduledBasalEventTexts.element(boundBy: 0).safeExists
+    }
+    public var automatedBolusValuesExist: Bool {
+        automatedBolusEventTexts.element(boundBy: 0).safeExists
     }
 }
