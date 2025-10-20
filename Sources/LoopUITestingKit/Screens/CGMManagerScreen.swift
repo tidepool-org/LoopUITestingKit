@@ -28,6 +28,7 @@ public final class CGMManagerScreen: BaseScreen {
     private var referenceDateCell: XCUIElement { app.cells["cell_ReferenceDate"] }
     private var measurementFrequencyCell: XCUIElement { app.cells["cell_MeasurementFrequency"] }
     private var glucoseNoiseCell: XCUIElement { app.cells["cell_GlucoseNoise"] }
+    private var noDataCell: XCUIElement { app.cells["cell_NoData"] }
     private var signalLossCell: XCUIElement { app.cells["cell_SignalLoss"] }
     private var backfillGlucoseCell: XCUIElement { app.cells["cell_BackfillGlucose"].firstMatch }
     private var warningThresholdCell: XCUIElement { app.cells["cell_WarningThreshold"].firstMatch }
@@ -63,6 +64,7 @@ public final class CGMManagerScreen: BaseScreen {
     public func tapSineCurveCell() { sineCurveCell.safeTap() }
     public func tapMeasurementFrequencyCell() { measurementFrequencyCell.safeTap() }
     public func tapGlucoseNoiseCell() { glucoseNoiseCell.safeTap() }
+    public func tapNoDataCell() { noDataCell.safeTap() }
     public func tapSignalLossCell() { signalLossCell.safeTap() }
     public func tapBackfillGlucoseCell() { backfillGlucoseCell.safeTap() }
     public func tapWarningThresholdCell() { warningThresholdCell.safeTap() }

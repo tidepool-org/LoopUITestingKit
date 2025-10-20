@@ -9,15 +9,79 @@ import XCTest
 
 public final class PresetsScreen: BaseScreen {
     
-    // MARK: Elements
     
-    private var preMealCorrectionRangeText: XCUIElement {
-        app.staticTexts.matching(NSPredicate(format: "identifier CONTAINS 'text_PresetCorrectionRange'"))
-            .element(boundBy: 0)
+    
+    // MARK: Elements
+    private func inactivePresetGroups(forPresetName presetName: String) -> [XCUIElement] {
+        [app.otherElements["group_inactivePreset\(presetName)"]]
     }
-    private var workoutCorrectionRangeText: XCUIElement {
-        app.staticTexts.matching(NSPredicate(format: "identifier CONTAINS 'text_PresetCorrectionRange'"))
-            .element(boundBy: 1)
+    
+    private func activePresetGroups() -> XCUIElementQuery {
+        let predicate = NSPredicate(format: "identifier CONTAINS %@", "group_activePreset")
+        return app.otherElements.matching(predicate)
+    }
+    
+    private func savedPresetGroups(forPresetName presetName: String) -> [XCUIElement] {
+        inactivePresetGroups(forPresetName: presetName) + activePresetGroups().allElementsBoundByIndex
+    }
+    
+    // MARK: - Inactive + Active Shared Lookups
+    
+    func presetCorrectionRangeText(forPresetName presetName: String) -> XCUIElement {
+        for group in savedPresetGroups(forPresetName: presetName) {
+            let match = group.descendants(matching: .any)
+                .matching(NSPredicate(format: "identifier CONTAINS %@", "text_PresetCorrectionRange"))
+                .firstMatch
+            if match.exists { return match }
+        }
+        return app.staticTexts["CorrectionRangeText_NotFound"]
+    }
+    
+    func presetScheduledIcon(forPresetName presetName: String) -> XCUIElement {
+        for group in savedPresetGroups(forPresetName: presetName) {
+            let match = group.descendants(matching: .any)
+                .matching(NSPredicate(format: "label CONTAINS %@", "Scheduled reminder"))
+                .firstMatch
+            if match.exists { return match }
+        }
+        return app.staticTexts["ReminderIcon_NotFound"]
+    }
+    
+    func presetOverallInsulinText(forPresetName presetName: String) -> XCUIElement {
+        for group in savedPresetGroups(forPresetName: presetName) {
+            let match = group.descendants(matching: .any)
+                .matching(NSPredicate(format: "identifier CONTAINS %@", "text_PresetOverallInsulin"))
+                .firstMatch
+            if match.exists { return match }
+        }
+        return app.staticTexts["OverallInsulinText_NotFound"]
+    }
+    
+    // MARK: - Active-Only Lookups
+    
+    func activePresetNameText() -> XCUIElement {
+        let identifier = activePresetGroups().firstMatch.identifier  
+        let prefex = "group_activePreset"
+        let presetName = String(identifier.dropFirst(prefex.count))
+        return app.staticTexts[presetName]
+    }
+    
+    func activePresetCorrectionRangeText() -> XCUIElement {
+        activePresetGroups().descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier CONTAINS %@", "text_PresetCorrectionRange"))
+            .firstMatch
+    }
+    
+    func activePresetScheduledIcon() -> XCUIElement {
+        activePresetGroups().descendants(matching: .any)
+            .matching(NSPredicate(format: "label CONTAINS %@", "Scheduled reminder"))
+            .firstMatch
+    }
+    
+    func activePresetOverallInsulinText() -> XCUIElement {
+        activePresetGroups().descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier CONTAINS %@", "text_PresetOverallInsulin"))
+            .firstMatch
     }
     private var editPresetButton: XCUIElement { app.buttons["button_EditPreset"] }
     private var correctionRangeButton: XCUIElement { app.buttons["button_CorrectionRange"] }
@@ -44,8 +108,15 @@ public final class PresetsScreen: BaseScreen {
     
     // MARK: Actions
     
-    public var getPreMealCorrectionRangeText: String { preMealCorrectionRangeText.getLableSafe() }
-    public var getWorkoutCorrectionRangeText: String { workoutCorrectionRangeText.getLableSafe() }
+    public func getPresetCorrectionRangeLabel(forPresetName presetName: String) -> String {
+        presetCorrectionRangeText(forPresetName: presetName).getLableSafe()
+    }
+    public func getPresetOverallInsulin(forPresetName presetName: String) -> String {
+        presetOverallInsulinText(forPresetName: presetName).getLableSafe()
+    }
+    public func getActivePresetCorrectionRangeLabel() -> String { activePresetCorrectionRangeText().getLableSafe() }
+    public func getActivePresetNameLabel() -> String { activePresetNameText().getLableSafe() }
+    public func getActivePresetOverallInsulin() -> String { activePresetOverallInsulinText().getLableSafe() }
     public var getAdjustedCorrectionRangeText: String { adjustCorrectionRangeText.getLableSafe() }
     public var getCorrectionRangePreviewWarningText: String { correctionRangePreviewWarningText.getLableSafe() }
     public var getPresetTimePickerButton: String { presetTimePickerButton.getValueSafe() }
@@ -91,11 +162,25 @@ public final class PresetsScreen: BaseScreen {
     public func tapCloseButton() { closeButton.safeTap() }
     public func tapPresetTimePickerButton() { presetTimePickerButton.safeTap() }
     
+    public func tapPresetCard(presetName: String) {
+        let groups = savedPresetGroups(forPresetName: presetName)
+        for group in groups{
+            if group.exists {
+                group.firstMatch.safeTap()
+                return
+            }
+        }
+        XCTFail("Preset card for \(presetName) not found")
+    }
+    
     // MARK: Verifications
     
     public var correctionValueRedWarningTextExists: Bool { correctionValueRedWarningText.safeExists }
     public var correctionValueOrangeWarningTextExists: Bool { correctionValueOrangeWarningText.safeExists }
     public var presetActionSheetActiveOnTextExists: Bool { presetActionSheetActiveOnText.safeExists }
+    public var activePresetScheduledIconExists: Bool { activePresetScheduledIcon().safeExists }
+    public func presetScheduledIconExists(forPresetName presetName: String) -> Bool { presetScheduledIcon(forPresetName: presetName).safeExists }
+
     
     public func presetHasEndedWithintDuration(duration: TimeInterval) -> Bool {
         startPresetButton.waitForExistence(timeout: duration) && endPresetButton.waitForNonExistence(timeout: duration)

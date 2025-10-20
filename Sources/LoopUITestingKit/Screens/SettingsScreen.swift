@@ -44,7 +44,7 @@ public final class SettingsScreen: BaseScreen {
     private var iOsPermissionsButton: XCUIElement {
         app.buttons.containing(NSPredicate(format: "label == 'iOS Permissions'")).firstMatch
     }
-    private var therapySettingsButton: XCUIElement { app.buttons["button_TherapySettings"] }
+    private var therapySettingsButton: XCUIElement { app.cells.containing(.button, identifier: "button_TherapySettings").firstMatch}
     private var presetsButton: XCUIElement { app.buttons["button_Presets"] }
     
     // MARK: Actions

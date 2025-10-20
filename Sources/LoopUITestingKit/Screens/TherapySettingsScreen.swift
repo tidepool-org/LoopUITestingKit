@@ -220,6 +220,7 @@ public final class TherapySettingsScreen: BaseScreen {
     public func tapGlucoseSafetyLimitText() { glucoseSafetyLimitText.safeTap() }
     public func tapBasalRatesText() { basalRatesText.safeTap() }
     public func tapGlucoseSafetyLimitValueText() { glucoseSafetyLimitValueText.safeTap() }
+    public func tapCorrectionRangeValueText(index: Int) { correctionRangeValuesText.element(boundBy: index).safeTap() }
     
     public func tapSaveSettingsButton() {
         app.swipeToElement(element: saveSettingsButton, swipeDirection: .up, swipeVelocity: .fast)
