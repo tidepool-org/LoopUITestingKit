@@ -69,8 +69,11 @@ public final class HomeScreen: BaseScreen {
     private var presetActiveOnText: XCUIElement { app.staticTexts["text_PresetActiveOn"] }
     private var presetsToolbarImage: XCUIElement { app.images["image_Presets"] }
     private var presetsSelectedToolbarImage: XCUIElement { app.images["image_PresetsSelected"] }
-    private var activeInsulinLastBolusText: XCUIElement { app.staticTexts["text_ActiveInsulinFooter"] }
-    
+    private var activeInsulinLastBolus: XCUIElement {
+        app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier == 'text_ActiveInsulinFooter'"))
+            .firstMatch
+    }
     // MARK: Actions
     
     public var getPercentCompletedProgressbarValue: String { percentCompletedProgressBar.getValueSafe() }
